@@ -24,7 +24,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={inter.variable}>
-      <body className="font-body antialiased bg-bg-page text-text-primary">
+      <body
+        className="font-body antialiased bg-bg-page text-text-primary"
+        suppressHydrationWarning
+      >
         <Header />
         <main>{children}</main>
         <AIAssistant />
