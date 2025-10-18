@@ -15,6 +15,11 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: 'ZIME Insights',
   description: 'AI-Powered Sales Pipeline Dashboard',
+  icons: {
+    icon: 'https://s3.us-west-2.amazonaws.com/zime.ai-website-asset/logo/zime-coral-black.png',
+    shortcut: 'https://s3.us-west-2.amazonaws.com/zime.ai-website-asset/logo/zime-coral-black.png',
+    apple: 'https://s3.us-west-2.amazonaws.com/zime.ai-website-asset/logo/zime-coral-black.png',
+  },
 };
 
 export default function RootLayout({
