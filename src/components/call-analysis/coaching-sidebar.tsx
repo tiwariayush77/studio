@@ -1,7 +1,10 @@
+"use client";
+
+import { useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Sparkles, AlertTriangle, Lightbulb, Copy, Pencil } from "lucide-react";
+import { Sparkles, AlertTriangle, Lightbulb, Copy, Pencil, Send, Edit } from "lucide-react";
 import type { Deal } from "@/lib/types";
 
 const emailDraft = `Hi John,
@@ -15,54 +18,106 @@ Next steps:
 - Let's schedule a demo with your CFO next week`;
 
 export function CoachingSidebar({ deal }: { deal: Deal }) {
+  const [showFullEmail, setShowFullEmail] = useState(false);
+
   return (
-    <div className="space-y-4 sticky top-24">
-      <div className="bg-red-50 rounded-lg p-5 border-l-4 border-red-600">
-        <h3 className="text-lg font-semibold text-red-900 flex items-center gap-2">
-            <AlertTriangle /> High Risk
-        </h3>
-        <p className="text-3xl font-bold text-red-600 mt-2">{deal.riskScore}/100</p>
-        <p className="text-sm text-red-800 mt-1">Why: {deal.rootCauses[2]}</p>
+    <div className="w-80 space-y-3 sticky top-20 h-fit">
+      <div className="bg-white border-l-4 border-red-600 rounded-lg p-4 shadow-sm">
+        <div className="flex items-center gap-2 mb-2">
+            <AlertTriangle className="w-4 h-4 text-red-600" />
+            <h3 className="text-sm font-semibold text-red-900">High Risk</h3>
+        </div>
+        <div className="flex items-baseline gap-1">
+            <span className="text-2xl font-bold text-red-600">{deal.riskScore}</span>
+            <span className="text-xs text-gray-500">/100</span>
+        </div>
+        <p className="text-xs text-gray-600 mt-2 leading-relaxed">
+            {deal.rootCauses[2]}
+        </p>
       </div>
       
-      <Card className="bg-purple-50">
-        <CardHeader>
-          <CardTitle className="text-base flex items-center gap-2">
-            <Sparkles className="text-purple-600" /> AI Coaching Insights
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-3 text-sm">
-          <p className="flex items-start gap-2"><Lightbulb className="w-4 h-4 mt-0.5 text-purple-600 flex-shrink-0" /> Budget signal detected at 28:30 but not qualified</p>
-          <p className="flex items-start gap-2"><Lightbulb className="w-4 h-4 mt-0.5 text-purple-600 flex-shrink-0" /> Good discovery pacing - 15 questions in first 20 mins</p>
-          <p className="flex items-start gap-2"><Lightbulb className="w-4 h-4 mt-0.5 text-purple-600 flex-shrink-0" /> CFO mentioned but not invited to next meeting</p>
-        </CardContent>
-      </Card>
+      <div className="bg-white border border-purple-200 rounded-lg p-4 shadow-sm">
+        <div className="flex items-center gap-2 mb-3">
+          <Sparkles className="w-4 h-4 text-purple-600" />
+          <h3 className="text-sm font-semibold text-gray-900">AI Insights</h3>
+        </div>
+        <ul className="space-y-2">
+          <li className="flex items-start gap-2">
+            <Lightbulb className="w-3 h-3 mt-0.5 text-purple-600 flex-shrink-0" />
+            <span className="text-xs text-gray-600 leading-relaxed">Budget signal detected at 28:30 but not qualified</span>
+          </li>
+           <li className="flex items-start gap-2">
+            <Lightbulb className="w-3 h-3 mt-0.5 text-purple-600 flex-shrink-0" />
+            <span className="text-xs text-gray-600 leading-relaxed">Good discovery pacing - 15 questions in first 20 mins</span>
+          </li>
+           <li className="flex items-start gap-2">
+            <Lightbulb className="w-3 h-3 mt-0.5 text-purple-600 flex-shrink-0" />
+            <span className="text-xs text-gray-600 leading-relaxed">CFO mentioned but not invited to next meeting</span>
+          </li>
+        </ul>
+      </div>
 
-      <Card>
-        <CardHeader><CardTitle className="text-base">Next Steps</CardTitle></CardHeader>
-        <CardContent className="space-y-4">
+      <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+        <h3 className="text-sm font-semibold text-gray-900 mb-3">Next Steps</h3>
+        <div className="space-y-3">
             <div>
-                <p className="font-medium text-sm">1. {deal.recommendedAction}</p>
-                <Button size="sm" variant="secondary" className="mt-1">Create Task</Button>
+                <p className="text-xs text-gray-700 leading-relaxed mb-2">{deal.recommendedAction}</p>
+                <Button size="sm" variant="outline" className="w-full h-8 text-xs">Create Task</Button>
             </div>
             <div>
-                <p className="font-medium text-sm">2. Send budget qualification checklist to Sarah</p>
-                <Button size="sm" variant="secondary" className="mt-1">Send Now</Button>
+                <p className="text-xs text-gray-700 leading-relaxed mb-2">Send budget qualification checklist to Sarah</p>
+                <Button size="sm" variant="outline" className="w-full h-8 text-xs">Send Now</Button>
             </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
       
-      <Card>
-        <CardHeader><CardTitle className="text-base">AI-Generated Follow-Up</CardTitle></CardHeader>
-        <CardContent>
-            <Textarea readOnly value={emailDraft} className="h-48 text-sm bg-gray-50" />
-            <div className="flex items-center gap-2 mt-2">
-                <Button size="sm" variant="outline"><Copy className="w-3 h-3 mr-2" /> Copy</Button>
-                <Button size="sm" variant="outline"><Pencil className="w-3 h-3 mr-2" /> Edit</Button>
-                <Button size="sm">Send via Salesforce</Button>
-            </div>
-        </CardContent>
-      </Card>
+      <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="text-sm font-semibold text-gray-900">
+              AI-Generated Follow-Up
+            </h3>
+            <Button 
+              size="sm" 
+              variant="ghost" 
+              onClick={() => setShowFullEmail(!showFullEmail)}
+              className="h-6 px-2 text-xs"
+            >
+              {showFullEmail ? 'Collapse ↑' : 'Expand ↓'}
+            </Button>
+          </div>
+          
+          {!showFullEmail ? (
+            <p className="text-xs text-gray-600 leading-relaxed">
+              Hi John, Thanks for the great conversation today. Based on our discussion...
+              <span className="text-blue-600 cursor-pointer ml-1" 
+                    onClick={() => setShowFullEmail(true)}>
+                Read more
+              </span>
+            </p>
+          ) : (
+            <>
+              <Textarea 
+                readOnly
+                className="w-full h-40 text-xs border border-gray-200 rounded-lg p-3 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50"
+                value={emailDraft}
+              />
+              <div className="flex gap-2 mt-3">
+                <Button size="sm" variant="outline" className="flex-1 h-8 text-xs">
+                  <Copy className="w-3 h-3 mr-1" />
+                  Copy
+                </Button>
+                <Button size="sm" variant="outline" className="flex-1 h-8 text-xs">
+                  <Edit className="w-3 h-3 mr-1" />
+                  Edit
+                </Button>
+                <Button size="sm" className="flex-1 h-8 text-xs bg-blue-600 hover:bg-blue-700">
+                  <Send className="w-3 h-3 mr-1" />
+                  Send
+                </Button>
+              </div>
+            </>
+          )}
+      </div>
     </div>
   );
 }
