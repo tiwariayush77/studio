@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { CALL_TRANSCRIPT } from "@/lib/data";
 import { cn } from "@/lib/utils";
-import { Search, Sentiment, Zap, Check, X, Users, Trophy } from "lucide-react";
+import { Search, Smile, Zap, Check, X, Users, Trophy } from "lucide-react";
 
 const tagStyles = {
   "pain-point": "bg-red-100 text-red-700",
@@ -76,7 +76,7 @@ export function TranscriptView() {
 
           <TabsContent value="insights" className="mt-0 p-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <InsightCard icon={Sentiment} title="Sentiment Analysis" content="😊 +0.7 (Positive)" />
+                <InsightCard icon={Smile} title="Sentiment Analysis" content="😊 +0.7 (Positive)" />
                 <InsightCard icon={Zap} title="Objections Raised" content="⚠️ Pricing concern, Integration complexity" />
                 <InsightCard icon={Trophy} title="Competitors Mentioned" content="🏆 Stripe (current provider)" />
                 <InsightCard icon={Users} title="Key Stakeholders" content="👥 John Smith (Champion), CFO mentioned" />
