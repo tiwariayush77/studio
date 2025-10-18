@@ -104,6 +104,7 @@ export function AIAssistant() {
       </div>
       
       <button
+        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-white/90 backdrop-blur-md border border-gray-200 shadow-lg hover:shadow-xl flex items-center justify-center transition-all duration-300 hover:scale-105 group"
         onClick={() => setIsOpen(!isOpen)}
         className="fixed bottom-6 right-6 z-[9999]
                   flex items-center gap-2.5
