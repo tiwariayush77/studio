@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { Sparkles, Bot, X, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
 const suggestionsByRoute: Record<string, string[]> = {
@@ -104,14 +104,37 @@ export function AIAssistant() {
       </div>
       
       <button
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-white/90 backdrop-blur-md border border-gray-200 shadow-lg hover:shadow-xl flex items-center justify-center transition-all duration-300 hover:scale-105 group"
         onClick={() => setIsOpen(!isOpen)}
+        className="fixed bottom-6 right-6 z-50
+                  flex items-center gap-2.5
+                  px-5 py-3
+                  rounded-full
+                  bg-gradient-to-r from-indigo-50/80 to-indigo-100/80
+                  backdrop-blur-xl
+                  border border-white/30
+                  shadow-[0_8px_32px_rgba(79,70,229,0.12)]
+                  hover:shadow-[0_12px_48px_rgba(79,70,229,0.2)]
+                  hover:scale-[1.02]
+                  active:scale-95
+                  transition-all duration-300
+                  group cursor-pointer"
       >
-        <div className="relative">
-          <Sparkles className="w-5 h-5 text-gray-700 group-hover:text-blue-600 transition-colors duration-300" />
-          <div className="absolute inset-0 blur-md bg-blue-400/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        {/* Sparkles Icon with Glow */}
+        <div className="relative flex items-center justify-center">
+          <div className="absolute inset-0 bg-indigo-400/20 rounded-full blur-md 
+                          group-hover:bg-indigo-400/30 transition-all"></div>
+          <Sparkles className="w-5 h-5 text-indigo-600 relative z-10 group-hover:text-indigo-700 transition-colors" />
         </div>
-        {isOpen ? <span className="sr-only">Close AI Assistant</span> : <span className="sr-only">Open AI Assistant</span>}
+        
+        {/* Text */}
+        <span className="text-sm font-semibold text-indigo-700 
+                        group-hover:text-indigo-800 transition-colors">
+          Ask ZIME AI
+        </span>
+        
+        {/* Active Indicator Dot */}
+        <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse 
+                        shadow-sm shadow-green-400/50"></div>
       </button>
     </>
   );
