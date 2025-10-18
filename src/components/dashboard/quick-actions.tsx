@@ -1,29 +1,27 @@
 'use client';
-import Link from "next/link";
 import { useRouter } from 'next/navigation';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { FileText, Calendar, TrendingUp } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { DEALS } from "@/lib/data";
+import { FileText, Calendar, TrendingUp } from "lucide-react";
 
 export function QuickActions() {
     const router = useRouter();
 
     const handleExportPipeline = () => {
         const csvData = DEALS.map(deal => ({
-            Company: deal.company,
-            Product: deal.product,
-            Value: deal.value,
-            Stage: deal.stage,
-            RiskScore: deal.riskScore,
-            Rep: deal.rep.name
+          Company: deal.company,
+          Product: deal.product,
+          Value: deal.value,
+          Stage: deal.stage,
+          'Risk Score': deal.riskScore,
+          Rep: deal.rep.name,
+          'Days in Stage': deal.daysInStage
         }));
-
+        
         const headers = Object.keys(csvData[0]).join(',');
-        const rows = csvData.map(row => Object.values(row).join(','));
+        const rows = csvData.map(row => Object.values(row).map(value => `"${String(value).replace(/"/g, '""')}"`).join(','));
         const csv = [headers, ...rows].join('\n');
         
-        const blob = new Blob([csv], { type: 'text/csv' });
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
@@ -35,35 +33,53 @@ export function QuickActions() {
     };
 
     const handleScheduleReview = () => {
-        const subject = 'Team Performance Review';
-        const body = 'Weekly pipeline review meeting';
+        const subject = 'Weekly Pipeline Review Meeting';
+        const body = `Hi Team,
+
+Let's review the pipeline performance and discuss action items.
+
+Key Topics:
+- High risk deals requiring attention (${DEALS.filter(d => d.riskLevel === 'high').length} deals)
+- Team performance trends
+- Coaching opportunities
+
+Best regards`;
         const mailto = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
         window.location.href = mailto;
     };
 
     const handleViewTrends = () => {
-        router.push('/analytics?view=risk-trends');
+        router.push('/analytics');
     };
 
     return (
-        <Card className="bg-white rounded-lg p-4 shadow-sm">
-            <CardHeader className="p-0 mb-3">
-                <CardTitle className="text-sm font-semibold text-gray-900">Quick Actions</CardTitle>
-            </CardHeader>
-            <CardContent className="p-0 space-y-1">
-                <Button onClick={handleExportPipeline} variant="ghost" className="w-full justify-start text-primary hover:bg-blue-50 p-2 h-auto text-sm font-normal">
-                    <FileText className="w-4 h-4 mr-2" />
-                    Export Pipeline Report
-                </Button>
-                <Button onClick={handleScheduleReview} variant="ghost" className="w-full justify-start text-primary hover:bg-blue-50 p-2 h-auto text-sm font-normal">
-                    <Calendar className="w-4 h-4 mr-2" />
-                    Schedule Team Review
-                </Button>
-                 <Button onClick={handleViewTrends} variant="ghost" className="w-full justify-start text-primary hover:bg-blue-50 p-2 h-auto text-sm font-normal">
-                    <TrendingUp className="w-4 h-4 mr-2" />
-                    View Risk Trends
-                </Button>
-            </CardContent>
-        </Card>
+        <div className="bg-white rounded-lg p-4 shadow-sm">
+            <h4 className="text-sm font-semibold text-gray-900 mb-3">
+                Quick Actions
+            </h4>
+            <div className="space-y-2">
+                <button
+                    onClick={handleExportPipeline}
+                    className="flex items-center gap-2 w-full text-left text-sm text-blue-600 hover:bg-blue-50 p-2 rounded-lg transition-colors"
+                >
+                    <FileText className="w-4 h-4 flex-shrink-0" />
+                    <span>Export Pipeline Report</span>
+                </button>
+                <button
+                    onClick={handleScheduleReview}
+                    className="flex items-center gap-2 w-full text-left text-sm text-blue-600 hover:bg-blue-50 p-2 rounded-lg transition-colors"
+                >
+                    <Calendar className="w-4 h-4 flex-shrink-0" />
+                    <span>Schedule Team Review</span>
+                </button>
+                <button
+                    onClick={handleViewTrends}
+                    className="flex items-center gap-2 w-full text-left text-sm text-blue-600 hover:bg-blue-50 p-2 rounded-lg transition-colors"
+                >
+                    <TrendingUp className="w-4 h-4 flex-shrink-0" />
+                    <span>View Risk Trends</span>
+                </button>
+            </div>
+        </div>
     );
 }

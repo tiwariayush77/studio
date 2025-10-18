@@ -1,43 +1,17 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { REPS } from '@/lib/data';
 import type { Rep } from '@/lib/types';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
 
 type FilterType = "all" | "top" | "coaching";
 
-const RepRow = ({ rep }: { rep: Rep }) => {
-  const adoptionColor = rep.adoption > 85 ? 'text-green-600' : rep.adoption >= 70 ? 'text-yellow-600' : 'text-red-600';
-
-  return (
-    <TableRow className="cursor-pointer h-12">
-      <TableCell>
-        <div className="w-6 h-6 rounded-full bg-gray-100 text-gray-700 text-xs font-semibold flex items-center justify-center">
-          {rep.rank}
-        </div>
-      </TableCell>
-      <TableCell>
-        <Link href={`/rep-scorecard/${rep.id}`} className="flex items-center gap-2 group">
-          <Avatar className="h-8 w-8">
-            <AvatarFallback className="bg-primary text-primary-foreground text-xs">{rep.avatar}</AvatarFallback>
-          </Avatar>
-          <span className="text-sm font-medium text-primary group-hover:underline">{rep.name} &rarr;</span>
-        </Link>
-      </TableCell>
-      <TableCell className={cn("text-sm font-medium", adoptionColor)}>{rep.adoption}%</TableCell>
-      <TableCell className="text-sm text-gray-700">{rep.winRate}%</TableCell>
-    </TableRow>
-  );
-};
-
 export function TeamPerformanceSidebar() {
   const [filter, setFilter] = useState<FilterType>("all");
+  const router = useRouter();
 
   const filteredReps = REPS.sort((a, b) => a.rank - b.rank).filter(rep => {
     if (filter === "top") return rep.adoption >= 85 && rep.winRate >= 38;
@@ -45,50 +19,90 @@ export function TeamPerformanceSidebar() {
     return true;
   });
 
+  const navigateToRepScorecard = (id: number) => {
+    router.push(`/rep-scorecard/${id}`);
+  };
+
   return (
-    <Card className="sticky top-24 h-fit">
-      <CardHeader>
-        <CardTitle className="text-lg">Team Performance</CardTitle>
-        <p className="text-sm text-text-secondary">Last 30 days</p>
-      </CardHeader>
-      <CardContent>
-        <div className="flex gap-2">
-          {(["all", "top", "coaching"] as FilterType[]).map(f => (
-            <Button
-              key={f}
-              size="sm"
-              variant={filter === f ? 'default' : 'ghost'}
-              onClick={() => setFilter(f)}
-              className={filter === f ? 'bg-blue-600 text-white' : ''}
-            >
-              {f === 'top' ? 'Top Performers' : f === 'coaching' ? 'Needs Coaching' : 'All'}
-            </Button>
-          ))}
+    <div className="bg-white rounded-lg p-5 shadow-sm">
+        <div className="mb-4">
+            <h3 className="text-lg font-semibold text-gray-900">
+                Team Performance
+            </h3>
+            <p className="text-sm text-gray-500 mt-1">Last 30 days</p>
         </div>
-        <Table className="mt-4">
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[50px]">Rank</TableHead>
-              <TableHead>Rep</TableHead>
-              <TableHead>Adoption</TableHead>
-              <TableHead>Win Rate</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filteredReps.map(rep => (
-              <RepRow key={rep.id} rep={rep} />
+
+        <div className="flex gap-2 mb-4">
+            {(["all", "top", "coaching"] as FilterType[]).map(f => (
+                <Button
+                    key={f}
+                    size="sm"
+                    variant={filter === f ? 'default' : 'ghost'}
+                    onClick={() => setFilter(f)}
+                    className={filter === f ? 'bg-blue-600 text-white' : 'text-gray-600'}
+                >
+                    {f === 'top' ? 'Top Performers' : f === 'coaching' ? 'Needs Coaching' : 'All'}
+                </Button>
             ))}
-          </TableBody>
-        </Table>
-        <div className="mt-4 pt-4 border-t">
+        </div>
+        
+        <div className="border-b border-gray-200 pb-2 mb-3">
+            <div className="grid grid-cols-[40px_1fr_80px_80px] gap-2 px-2">
+                <span className="text-xs font-semibold text-gray-600 uppercase">Rank</span>
+                <span className="text-xs font-semibold text-gray-600 uppercase">Rep</span>
+                <span className="text-xs font-semibold text-gray-600 uppercase text-right">Adoption</span>
+                <span className="text-xs font-semibold text-gray-600 uppercase text-right">Win Rate</span>
+            </div>
+        </div>
+
+        <div className="space-y-1">
+            {filteredReps.map(rep => (
+                <div
+                    key={rep.id}
+                    onClick={() => navigateToRepScorecard(rep.id)}
+                    className="grid grid-cols-[40px_1fr_80px_80px] gap-2 px-2 py-3 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors"
+                >
+                    <div className="flex items-center">
+                        <span className="w-6 h-6 rounded-full bg-gray-100 text-gray-700 text-xs font-semibold flex items-center justify-center">
+                            {rep.rank}
+                        </span>
+                    </div>
+                    <div className="flex items-center gap-2 min-w-0">
+                        <div className="w-8 h-8 rounded-full bg-blue-500 text-white text-xs font-semibold flex items-center justify-center flex-shrink-0">
+                            {rep.avatar}
+                        </div>
+                        <span className="text-sm font-medium text-blue-600 hover:underline truncate">
+                            {rep.name} →
+                        </span>
+                    </div>
+                    <div className="flex items-center justify-end">
+                        <span className={cn("text-sm font-medium", 
+                            rep.adoption >= 85 ? 'text-green-600' : 
+                            rep.adoption >= 70 ? 'text-yellow-600' : 'text-red-600'
+                        )}>
+                            {rep.adoption}%
+                        </span>
+                    </div>
+                    <div className="flex items-center justify-end">
+                        <span className="text-sm font-medium text-gray-700">
+                            {rep.winRate}%
+                        </span>
+                    </div>
+                </div>
+            ))}
+        </div>
+
+        <div className="mt-3 pt-3 border-t border-gray-200">
             <p className="text-xs text-gray-500 mb-2">
                 Showing {filteredReps.length} of {REPS.length} reps
             </p>
-          <Link href="/team-playbook" className="text-sm text-primary hover:underline">
-            View full team playbook &rarr;
-          </Link>
+            <a 
+                href="/team-playbook"
+                className="text-sm text-blue-600 hover:underline font-medium"
+            >
+                View full team playbook →
+            </a>
         </div>
-      </CardContent>
-    </Card>
+    </div>
   );
 }
