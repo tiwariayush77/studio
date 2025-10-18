@@ -49,7 +49,7 @@ export function TranscriptView() {
         </TabsList>
         
         <div className="flex-1 overflow-y-auto">
-          <TabsContent value="transcript" className="mt-0 p-6 space-y-4">
+          <TabsContent value="transcript" className="mt-0 p-6 space-y-1">
             <div className="sticky top-0 bg-card pb-4 z-10">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -57,7 +57,7 @@ export function TranscriptView() {
               </div>
             </div>
             {CALL_TRANSCRIPT.map((item, index) => (
-              <div key={index}>
+              <div key={index} className={cn('p-4 rounded-lg', item.speaker === 'Sarah' ? 'bg-blue-50' : 'bg-white')}>
                 <div className="flex items-center gap-3">
                   <Badge variant="secondary" className="font-mono text-xs">{item.time}</Badge>
                   <p className={cn("font-semibold", item.speaker === 'Sarah' ? 'text-primary' : 'text-gray-900')}>{item.speaker}</p>
