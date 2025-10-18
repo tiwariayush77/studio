@@ -104,7 +104,7 @@ export function AIAssistant() {
       </div>
       
       <button
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200 border border-slate-200/60 shadow-lg hover:shadow-xl flex items-center justify-center transition-all duration-300 hover:scale-105 group"
+        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-gradient-to-br from-indigo-50 via-indigo-100 to-indigo-200 border border-indigo-200/60 shadow-lg hover:shadow-xl flex items-center justify-center transition-all duration-300 hover:scale-105 group"
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className="relative">
