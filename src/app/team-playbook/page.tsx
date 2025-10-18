@@ -113,7 +113,6 @@ function renderPlaybookChart(type: string, data: any[]) {
     margin: { top: 5, right: 30, left: 20, bottom: 5 },
   };
 
-  // CRITICAL: Add proper X/Y Axis components
   const axisComponents = (
     <>
       <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
@@ -444,7 +443,7 @@ export default function TeamPlaybookPage() {
         </h3>
 
         {/* FIXED CHART WITH PROPER X/Y AXIS */}
-        <div className="chart-container h-[300px]">
+        <div className="h-[300px]">
           <ResponsiveContainer width="100%" height="100%">
             {renderPlaybookChart(chartType, chartData)}
           </ResponsiveContainer>
