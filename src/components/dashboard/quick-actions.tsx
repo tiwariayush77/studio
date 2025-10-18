@@ -14,14 +14,14 @@ const ActionButton = ({ icon: Icon, children, href = "#" }: { icon: React.Elemen
 
 export function QuickActions() {
     return (
-        <Card>
-            <CardHeader className="p-4">
+        <Card className="bg-white rounded-lg p-4 shadow-sm">
+            <CardHeader className="p-0 mb-3">
                 <CardTitle className="text-sm font-semibold text-gray-900">Quick Actions</CardTitle>
             </CardHeader>
-            <CardContent className="p-4 pt-0 space-y-1">
-                <ActionButton icon={FileText}>Export Pipeline Report</ActionButton>
-                <ActionButton icon={Calendar}>Schedule Team Review</ActionButton>
-                <ActionButton icon={TrendingUp}>View Risk Trends</ActionButton>
+            <CardContent className="p-0 space-y-1">
+                <ActionButton icon={FileText} href="#">Export Pipeline Report</ActionButton>
+                <ActionButton icon={Calendar} href="#">Schedule Team Review</ActionButton>
+                <ActionButton icon={TrendingUp} href="/analytics">View Risk Trends</ActionButton>
             </CardContent>
         </Card>
     );

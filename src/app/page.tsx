@@ -28,7 +28,7 @@ export default function DashboardPage() {
                 <DealCard key={deal.id} deal={deal} />
             ))}
           </div>
-          <aside className="lg:sticky lg:top-20 self-start max-h-[calc(100vh-6rem)] overflow-y-auto space-y-6">
+          <aside className="lg:sticky lg:top-20 self-start max-h-[calc(100vh-6rem)] overflow-y-auto space-y-4">
             <TeamPerformanceSidebar />
             <QuickActions />
           </aside>

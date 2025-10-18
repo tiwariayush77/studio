@@ -21,8 +21,8 @@ export function CoachingSidebar({ deal }: { deal: Deal }) {
   const [showFullEmail, setShowFullEmail] = useState(false);
 
   return (
-    <div className="w-80 space-y-3 sticky top-20 h-fit">
-      <div className="bg-white border-l-4 border-red-600 rounded-lg p-4 shadow-sm">
+    <>
+      <div className="bg-white border-l-4 border-red-600 rounded-lg p-3 shadow-sm">
         <div className="flex items-center gap-2 mb-2">
             <AlertTriangle className="w-4 h-4 text-red-600" />
             <h3 className="text-sm font-semibold text-red-900">High Risk</h3>
@@ -36,7 +36,7 @@ export function CoachingSidebar({ deal }: { deal: Deal }) {
         </p>
       </div>
       
-      <div className="bg-white border border-purple-200 rounded-lg p-4 shadow-sm">
+      <div className="bg-white border border-purple-200 rounded-lg p-3 shadow-sm">
         <div className="flex items-center gap-2 mb-3">
           <Sparkles className="w-4 h-4 text-purple-600" />
           <h3 className="text-sm font-semibold text-gray-900">AI Insights</h3>
@@ -57,7 +57,7 @@ export function CoachingSidebar({ deal }: { deal: Deal }) {
         </ul>
       </div>
 
-      <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+      <div className="bg-white border border-gray-200 rounded-lg p-3 shadow-sm">
         <h3 className="text-sm font-semibold text-gray-900 mb-3">Next Steps</h3>
         <div className="space-y-3">
             <div>
@@ -71,7 +71,7 @@ export function CoachingSidebar({ deal }: { deal: Deal }) {
         </div>
       </div>
       
-      <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+      <div className="bg-white border border-gray-200 rounded-lg p-3 shadow-sm">
           <div className="flex items-center justify-between mb-2">
             <h3 className="text-sm font-semibold text-gray-900">
               AI-Generated Follow-Up
@@ -118,6 +118,6 @@ export function CoachingSidebar({ deal }: { deal: Deal }) {
             </>
           )}
       </div>
-    </div>
+    </>
   );
 }

@@ -19,9 +19,7 @@ import {
 import {
   ArrowDown,
   ArrowUp,
-  TrendingUp,
-  FileText,
-  Calendar,
+  TrendingUp
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -47,15 +45,16 @@ const winLossData = [
   { name: 'Won', value: 36 },
   { name: 'Lost', value: 64 },
 ];
-const winLossColors = ['#10B981', '#EF4444'];
 
 const lossReasonData = [
     { name: 'Price', value: 28, fill: '#3B82F6' },
     { name: 'No budget', value: 22, fill: '#8B5CF6' },
     { name: 'Went with competitor', value: 18, fill: '#F59E0B' },
     { name: 'Timing', value: 15, fill: '#6B7280' },
-    { name: 'Other', value: 17, fill: '#10B981' },
+    { name: 'Other', value: 17, fill: '#EC4899' },
 ];
+
+const winLossColors = ['#10B981', '#EF4444'];
 
 
 const repPerformanceData = [
@@ -71,23 +70,50 @@ const FunnelStage: FC<{
   stage: string;
   deals: number;
   value: string;
-  color: string;
-  conversion?: number;
-  isFirst?: boolean;
-}> = ({ stage, deals, value, color, conversion, isFirst = false }) => (
-    <div className="relative pl-8">
-        {!isFirst && (
-            <div className="absolute left-4 top-[-24px] h-6 w-px bg-gray-300"></div>
-        )}
-        <div className={cn("p-4 rounded-lg", color)}>
-            <div className="flex justify-between items-center">
-                <span className="font-semibold text-white">{stage}</span>
-                {!isFirst && conversion && (
-                    <span className="text-xs text-white/80">{conversion}% conversion</span>
-                )}
+  conversion: number | null;
+  stageColor: string;
+}> = ({ stage, deals, value, conversion, stageColor }) => (
+    <div className={cn("bg-gradient-to-r border-l-4 rounded-lg p-5 hover:shadow-md transition-all", stageColor)}>
+        <div className="flex items-center justify-between">
+            <div>
+                <p className={cn("text-xs font-medium uppercase tracking-wide mb-1", 
+                    stage === "Discovery" ? "text-blue-600" :
+                    stage === "Demo" ? "text-emerald-600" :
+                    stage === "Negotiation" ? "text-amber-600" : "text-indigo-600"
+                )}>
+                    {stage}
+                </p>
+                <p className={cn("text-3xl font-bold",
+                    stage === "Discovery" ? "text-blue-900" :
+                    stage === "Demo" ? "text-emerald-900" :
+                    stage === "Negotiation" ? "text-amber-900" : "text-indigo-900"
+                )}>
+                    {deals} deals
+                </p>
+                <p className={cn("text-sm mt-1",
+                    stage === "Discovery" ? "text-blue-700" :
+                    stage === "Demo" ? "text-emerald-700" :
+                    stage === "Negotiation" ? "text-amber-700" : "text-indigo-700"
+                )}>
+                    {value}
+                </p>
             </div>
-            <div className="text-2xl font-bold text-white mt-1">{deals} deals</div>
-            <div className="text-sm text-white/90">{value}</div>
+            {conversion !== null ? (
+                <div className="text-right">
+                    <p className="text-xs text-gray-600 mb-1">Conversion</p>
+                    <p className="text-2xl font-bold text-gray-900">{conversion}%</p>
+                    <div className="w-24 h-2 bg-gray-200 rounded-full mt-2">
+                        <div className={cn("h-2 rounded-full", 
+                            stage === "Discovery" ? "bg-blue-500" :
+                            stage === "Demo" ? "bg-emerald-500" : "bg-amber-500"
+                        )} style={{width: `${conversion}%`}}></div>
+                    </div>
+                </div>
+            ) : (
+                 <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
+                    Win Rate: 36%
+                </span>
+            )}
         </div>
     </div>
 );
@@ -123,52 +149,56 @@ const AnalyticsPage = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
-        <Card>
-            <CardHeader>
-                <CardTitle className="text-sm text-gray-600 font-medium">Total Pipeline Value</CardTitle>
+        <Card className="p-4 shadow-sm border border-gray-200">
+            <CardHeader className="p-0">
+                <CardTitle className="text-xs font-medium text-gray-600 uppercase tracking-wide">Total Pipeline</CardTitle>
             </CardHeader>
-            <CardContent>
-                <p className="text-3xl font-bold text-gray-900">$691K</p>
-                <p className="text-sm text-green-600 flex items-center gap-1 mt-1">
-                    <ArrowUp className="w-4 h-4" />
-                    +12.5% vs last period
-                </p>
+            <CardContent className="p-0">
+                <p className="text-2xl font-bold text-gray-900 mt-2">$691K</p>
+                <div className="flex items-center gap-1 mt-2">
+                    <TrendingUp className="w-3 h-3 text-green-600" />
+                    <span className="text-xs font-medium text-green-600">+12.5%</span>
+                    <span className="text-xs text-gray-500">vs last period</span>
+                </div>
             </CardContent>
         </Card>
-        <Card>
-            <CardHeader>
-                <CardTitle className="text-sm text-gray-600 font-medium">Average Deal Size</CardTitle>
+        <Card className="p-4 shadow-sm border border-gray-200">
+            <CardHeader className="p-0">
+                <CardTitle className="text-xs font-medium text-gray-600 uppercase tracking-wide">Average Deal Size</CardTitle>
             </CardHeader>
-            <CardContent>
-                <p className="text-3xl font-bold text-gray-900">$48K</p>
-                <p className="text-sm text-green-600 flex items-center gap-1 mt-1">
-                    <ArrowUp className="w-4 h-4" />
-                    +3.2%
-                </p>
+            <CardContent className="p-0">
+                <p className="text-2xl font-bold text-gray-900 mt-2">$48K</p>
+                <div className="flex items-center gap-1 mt-2">
+                    <TrendingUp className="w-3 h-3 text-green-600" />
+                    <span className="text-xs font-medium text-green-600">+3.2%</span>
+                     <span className="text-xs text-gray-500">vs last period</span>
+                </div>
             </CardContent>
         </Card>
-        <Card>
-            <CardHeader>
-                <CardTitle className="text-sm text-gray-600 font-medium">Win Rate</CardTitle>
+        <Card className="p-4 shadow-sm border border-gray-200">
+            <CardHeader className="p-0">
+                <CardTitle className="text-xs font-medium text-gray-600 uppercase tracking-wide">Win Rate</CardTitle>
             </CardHeader>
-            <CardContent>
-                <p className="text-3xl font-bold text-gray-900">36%</p>
-                <p className="text-sm text-red-600 flex items-center gap-1 mt-1">
-                    <ArrowDown className="w-4 h-4" />
-                    -2.1%
-                </p>
+            <CardContent className="p-0">
+                <p className="text-2xl font-bold text-gray-900 mt-2">36%</p>
+                <div className="flex items-center gap-1 mt-2">
+                    <ArrowDown className="w-3 h-3 text-red-600" />
+                    <span className="text-xs font-medium text-red-600">-2.1%</span>
+                     <span className="text-xs text-gray-500">vs last period</span>
+                </div>
             </CardContent>
         </Card>
-        <Card>
-            <CardHeader>
-                <CardTitle className="text-sm text-gray-600 font-medium">Average Sales Cycle</CardTitle>
+        <Card className="p-4 shadow-sm border border-gray-200">
+            <CardHeader className="p-0">
+                <CardTitle className="text-xs font-medium text-gray-600 uppercase tracking-wide">Average Sales Cycle</CardTitle>
             </CardHeader>
-            <CardContent>
-                <p className="text-3xl font-bold text-gray-900">42 days</p>
-                <p className="text-sm text-yellow-600 flex items-center gap-1 mt-1">
-                    <ArrowUp className="w-4 h-4" />
-                    +5 days
-                </p>
+            <CardContent className="p-0">
+                <p className="text-2xl font-bold text-gray-900 mt-2">42 days</p>
+                <div className="flex items-center gap-1 mt-2">
+                    <ArrowUp className="w-3 h-3 text-yellow-600" />
+                    <span className="text-xs font-medium text-yellow-600">+5 days</span>
+                     <span className="text-xs text-gray-500">vs last period</span>
+                </div>
             </CardContent>
         </Card>
       </div>
@@ -179,31 +209,50 @@ const AnalyticsPage = () => {
             </h3>
             <ResponsiveContainer width="100%" height={300}>
             <LineChart data={velocityData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="week" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
+                <defs>
+                  <linearGradient id="colorDiscovery" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.3}/>
+                    <stop offset="95%" stopColor="#3B82F6" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
+                <XAxis dataKey="week" stroke="#9CA3AF" style={{ fontSize: '12px' }} />
+                <YAxis stroke="#9CA3AF" style={{ fontSize: '12px' }} />
+                <Tooltip 
+                  contentStyle={{
+                    backgroundColor: 'white',
+                    border: '1px solid #E5E7EB',
+                    borderRadius: '8px',
+                    padding: '12px'
+                  }}
+                />
+                <Legend wrapperStyle={{ fontSize: '13px' }}/>
                 <Line
-                type="monotone"
-                dataKey="discovery"
-                stroke="#3B82F6"
-                strokeWidth={2}
-                name="Discovery"
+                  type="monotone"
+                  dataKey="discovery"
+                  stroke="#3B82F6"
+                  strokeWidth={2.5}
+                  dot={{ fill: '#3B82F6', r: 4 }}
+                  activeDot={{ r: 6 }}
+                  name="Discovery"
                 />
                 <Line
-                type="monotone"
-                dataKey="demo"
-                stroke="#10B981"
-                strokeWidth={2}
-                name="Demo"
+                  type="monotone"
+                  dataKey="demo"
+                  stroke="#10B981"
+                  strokeWidth={2.5}
+                  dot={{ fill: '#10B981', r: 4 }}
+                  activeDot={{ r: 6 }}
+                  name="Demo"
                 />
                 <Line
-                type="monotone"
-                dataKey="negotiation"
-                stroke="#F59E0B"
-                strokeWidth={2}
-                name="Negotiation"
+                  type="monotone"
+                  dataKey="negotiation"
+                  stroke="#F59E0B"
+                  strokeWidth={2.5}
+                  dot={{ fill: '#F59E0B', r: 4 }}
+                  activeDot={{ r: 6 }}
+                  name="Negotiation"
                 />
             </LineChart>
             </ResponsiveContainer>
@@ -212,29 +261,29 @@ const AnalyticsPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
             <Card className="p-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Deal Stage Funnel</h3>
-                <div className="space-y-4">
-                    <FunnelStage stage="Discovery" deals={45} value="$820K" color="bg-blue-500" isFirst />
-                    <FunnelStage stage="Demo" deals={28} value="$640K" color="bg-green-500" conversion={62} />
-                    <FunnelStage stage="Negotiation" deals={15} value="$580K" color="bg-yellow-500" conversion={54} />
-                    <FunnelStage stage="Closed Won" deals={12} value="$420K" color="bg-purple-500" conversion={80} />
+                <div className="space-y-3">
+                    <FunnelStage stage="Discovery" deals={45} value="$820K pipeline" conversion={62} stageColor="from-blue-50 to-blue-100 border-blue-500" />
+                    <FunnelStage stage="Demo" deals={28} value="$640K pipeline" conversion={54} stageColor="from-emerald-50 to-emerald-100 border-emerald-500" />
+                    <FunnelStage stage="Negotiation" deals={15} value="$580K pipeline" conversion={80} stageColor="from-amber-50 to-amber-100 border-amber-500" />
+                    <FunnelStage stage="Closed Won" deals={12} value="$420K won" conversion={null} stageColor="from-indigo-50 to-indigo-100 border-indigo-500" />
                 </div>
             </Card>
             <Card className="p-6">
                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Win/Loss Analysis</h3>
                  <ResponsiveContainer width="100%" height={300}>
                     <PieChart>
-                        <Pie data={winLossData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={60} label>
+                        <Pie data={winLossData} dataKey="value" nameKey="name" cx="50%" cy="40%" outerRadius={60} label>
                             {winLossData.map((entry, index) => (
                                 <Cell key={`cell-${index}`} fill={winLossColors[index % winLossColors.length]} />
                             ))}
                         </Pie>
-                        <Pie data={lossReasonData} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={70} outerRadius={90} label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`} >
+                        <Pie data={lossReasonData} dataKey="value" nameKey="name" cx="50%" cy="40%" innerRadius={70} outerRadius={90} label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`} >
                              {lossReasonData.map((entry, index) => (
                                 <Cell key={`cell-${index}`} fill={entry.fill} />
                             ))}
                         </Pie>
                         <Tooltip />
-                        <Legend />
+                        <Legend verticalAlign="bottom" height={36} iconType="circle" wrapperStyle={{ fontSize: '12px' }} />
                     </PieChart>
                  </ResponsiveContainer>
             </Card>
@@ -251,7 +300,7 @@ const AnalyticsPage = () => {
                 </div>
             </div>
              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={repPerformanceData.sort((a,b) => b[repSortMetric] - a[repSortMetric])}>
+                <BarChart data={repPerformanceData.sort((a,b) => b[repSortMetric as keyof typeof a] - a[repSortMetric as keyof typeof a])}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="name" />
                     <YAxis />

@@ -8,14 +8,14 @@ import { CALL_TRANSCRIPT } from "@/lib/data";
 import { cn } from "@/lib/utils";
 import { Search, Smile, Zap, Check, X, Users, Trophy } from "lucide-react";
 
-const tagStyles = {
+const tagStyles: { [key: string]: string } = {
   "pain-point": "bg-red-100 text-red-700",
   "discovery-question": "bg-blue-100 text-blue-700",
   objection: "bg-yellow-100 text-yellow-700",
-  "budget-signal": "bg-yellow-100 text-yellow-700",
+  "budget-signal": "bg-orange-100 text-orange-700",
   "buying-signal": "bg-green-100 text-green-700",
-  "next-step": "bg-purple-100 text-purple-700",
-  "objection-response": "bg-indigo-100 text-indigo-700"
+  "next-step": "bg-indigo-100 text-indigo-700",
+  "objection-response": "bg-purple-100 text-purple-700"
 };
 
 const InsightCard = ({ icon: Icon, title, content }: { icon: React.ElementType, title: string, content: string}) => (
@@ -40,16 +40,16 @@ const ActionItem = ({ text, checked, impact }: { text: string, checked: boolean,
 
 export function TranscriptView() {
   return (
-    <Card className="max-h-[800px] flex flex-col">
+    <div className="flex flex-col">
       <Tabs defaultValue="transcript" className="flex-1 flex flex-col">
-        <TabsList className="m-6 bg-muted">
+        <TabsList className="mb-4 bg-muted w-min">
           <TabsTrigger value="transcript">Transcript</TabsTrigger>
           <TabsTrigger value="insights">Insights</TabsTrigger>
           <TabsTrigger value="actions">Actions</TabsTrigger>
         </TabsList>
         
-        <div className="flex-1 overflow-y-auto">
-          <TabsContent value="transcript" className="mt-0 p-6 space-y-1">
+        <div className="flex-1">
+          <TabsContent value="transcript" className="mt-0 space-y-4">
             <div className="sticky top-0 bg-card pb-4 z-10">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -57,16 +57,16 @@ export function TranscriptView() {
               </div>
             </div>
             {CALL_TRANSCRIPT.map((item, index) => (
-              <div key={index} className={cn('p-4 rounded-lg', item.speaker === 'Sarah' ? 'bg-blue-50' : 'bg-white')}>
-                <div className="flex items-center gap-3">
-                  <Badge variant="secondary" className="font-mono text-xs">{item.time}</Badge>
-                  <p className={cn("font-semibold", item.speaker === 'Sarah' ? 'text-primary' : 'text-gray-900')}>{item.speaker}</p>
+              <div key={index} className={cn('pb-4 border-b border-gray-100 last:border-0', item.speaker === 'Sarah' ? 'bg-blue-50/50 p-4 rounded-lg' : 'bg-white')}>
+                <div className="flex items-baseline gap-3 mb-2">
+                  <Badge variant="secondary" className="font-mono text-xs text-gray-500 bg-gray-100">{item.time}</Badge>
+                  <p className={cn("font-semibold", item.speaker === 'Sarah' ? 'text-blue-600' : 'text-gray-900')}>{item.speaker}:</p>
                 </div>
-                <p className="text-[15px] leading-relaxed text-gray-700 mt-1 ml-16">{item.text}</p>
+                <p className="text-[15px] leading-relaxed text-gray-700 ml-16">{item.text}</p>
                 {item.tags.length > 0 && (
-                  <div className="flex gap-2 mt-2 ml-16">
+                  <div className="flex flex-wrap gap-2 mt-3 ml-16">
                     {item.tags.map(tag => (
-                      <Badge key={tag} className={cn("text-xs", tagStyles[tag])}>{tag.replace('-', ' ')}</Badge>
+                      <Badge key={tag} className={cn("text-xs capitalize", tagStyles[tag])}>{tag.replace('-', ' ')}</Badge>
                     ))}
                   </div>
                 )}
@@ -74,7 +74,7 @@ export function TranscriptView() {
             ))}
           </TabsContent>
 
-          <TabsContent value="insights" className="mt-0 p-6">
+          <TabsContent value="insights" className="mt-0">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <InsightCard icon={Smile} title="Sentiment Analysis" content="😊 +0.7 (Positive)" />
                 <InsightCard icon={Zap} title="Objections Raised" content="⚠️ Pricing concern, Integration complexity" />
@@ -83,7 +83,7 @@ export function TranscriptView() {
             </div>
           </TabsContent>
 
-          <TabsContent value="actions" className="mt-0 p-6 space-y-3">
+          <TabsContent value="actions" className="mt-0 space-y-3">
             <ActionItem text="Asked about current pain point" checked={true} />
             <ActionItem text="Identified decision-makers" checked={true} />
             <ActionItem text="Ask about budget" checked={false} impact="40% lower win rate when skipped" />
@@ -92,6 +92,6 @@ export function TranscriptView() {
           </TabsContent>
         </div>
       </Tabs>
-    </Card>
+    </div>
   );
 }
