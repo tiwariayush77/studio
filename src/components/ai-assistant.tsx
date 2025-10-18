@@ -105,7 +105,7 @@ export function AIAssistant() {
       
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-50
+        className="fixed bottom-6 right-6 z-[9999]
                   flex items-center gap-2.5
                   px-5 py-3
                   rounded-full
@@ -117,7 +117,8 @@ export function AIAssistant() {
                   hover:scale-[1.02]
                   active:scale-95
                   transition-all duration-300
-                  group cursor-pointer"
+                  group cursor-pointer pointer-events-auto"
+        style={{ position: 'fixed' }}
       >
         {/* Sparkles Icon with Glow */}
         <div className="relative flex items-center justify-center">

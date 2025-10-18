@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Select,
@@ -32,37 +32,20 @@ import { cn } from '@/lib/utils';
 
 function generatePlaybookData(metric: string, timeframe: string) {
   const periods: Record<string, number> = {
-    '7-days': 7,
-    '30-days': 30,
-    '90-days': 90,
+    '7-days': 1,
+    '30-days': 4,
+    '90-days': 12,
   };
+  const weeks = periods[timeframe] || 4;
 
-  const days = periods[timeframe] || 30;
-  const weeks = Math.ceil(days / 7);
-
-  // Generate data based on metric
-  return Array.from({ length: weeks }, (_, i) => ({
-    name: `Week ${i + 1}`,
-    value: Math.floor(Math.random() * 20) + 70, // 70-90% adoption
-  }));
-}
-
-function getPlaybookChartTitle(metric: string, timeframe: string) {
-  const titles: Record<string, string> = {
-    overall: 'Overall Playbook Adoption',
-    discovery: 'Discovery Stage Adoption',
-    demo: 'Demo Stage Adoption',
-    negotiation: 'Negotiation Stage Adoption',
-    'win-rate-impact': 'Win Rate Impact',
-  };
-
-  const periods: Record<string, string> = {
-    '7-days': 'Last 7 Days',
-    '30-days': 'Last 30 Days',
-    '90-days': 'Last Quarter',
-  };
-
-  return `${titles[metric]} - ${periods[timeframe]}`;
+  const data = [];
+  for (let i = 0; i < weeks; i++) {
+    data.push({
+      name: `Week ${i + 1}`,
+      value: Math.floor(Math.random() * 20) + 70, // 70-90% adoption
+    });
+  }
+  return data;
 }
 
 // ============= EXPORT FUNCTIONS (KEEP) =============
@@ -97,24 +80,132 @@ function downloadFile(content: string, filename: string, type: string) {
   window.URL.revokeObjectURL(url);
 }
 
+// ============= CHART RENDERING =============
+function renderChart(type: string, data: any[]) {
+  const commonAxisProps = {
+    xAxis: {
+      height: 50,
+      tick: { fill: '#1F2937', fontSize: 14, fontWeight: 600 },
+      tickLine: { stroke: '#1F2937', strokeWidth: 2 },
+      axisLine: { stroke: '#1F2937', strokeWidth: 2 },
+      stroke: '#1F2937',
+    },
+    yAxis: {
+      width: 50,
+      tick: { fill: '#1F2937', fontSize: 14, fontWeight: 600 },
+      tickLine: { stroke: '#1F2937', strokeWidth: 2 },
+      axisLine: { stroke: '#1F2937', strokeWidth: 2 },
+      stroke: '#1F2937',
+      label: {
+        value: 'Adoption %',
+        angle: -90,
+        position: 'insideLeft',
+        style: { fill: '#1F2937', fontWeight: 600 },
+      },
+    },
+  };
+
+  const commonProps = {
+    data,
+    margin: { top: 20, right: 40, bottom: 60, left: 60 },
+  };
+
+  switch (type) {
+    case 'line':
+      return (
+        <LineChart {...commonProps}>
+          <CartesianGrid
+            strokeDasharray="5 5"
+            stroke="#D1D5DB"
+            strokeWidth={1}
+          />
+          <XAxis dataKey="name" {...commonAxisProps.xAxis} />
+          <YAxis {...commonAxisProps.yAxis} />
+          <Tooltip
+            contentStyle={{
+              backgroundColor: 'white',
+              border: '2px solid #3B82F6',
+              borderRadius: '8px',
+              padding: '12px',
+            }}
+          />
+          <Legend />
+          <Line
+            type="monotone"
+            dataKey="value"
+            name="Adoption Rate"
+            stroke="#3B82F6"
+            strokeWidth={3}
+            dot={{
+              fill: '#3B82F6',
+              r: 6,
+              strokeWidth: 2,
+              stroke: 'white',
+            }}
+            activeDot={{ r: 8 }}
+          />
+        </LineChart>
+      );
+
+    case 'bar':
+      return (
+        <BarChart {...commonProps}>
+          <CartesianGrid
+            strokeDasharray="5 5"
+            stroke="#D1D5DB"
+            strokeWidth={1}
+          />
+          <XAxis dataKey="name" {...commonAxisProps.xAxis} />
+          <YAxis {...commonAxisProps.yAxis} />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="value" name="Adoption Rate" fill="#3B82F6" />
+        </BarChart>
+      );
+
+    case 'area':
+      return (
+        <AreaChart {...commonProps}>
+          <defs>
+            <linearGradient id="colorAdoption" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.8} />
+              <stop offset="95%" stopColor="#3B82F6" stopOpacity={0.1} />
+            </linearGradient>
+          </defs>
+          <CartesianGrid
+            strokeDasharray="5 5"
+            stroke="#D1D5DB"
+            strokeWidth={1}
+          />
+          <XAxis dataKey="name" {...commonAxisProps.xAxis} />
+          <YAxis {...commonAxisProps.yAxis} />
+          <Tooltip />
+          <Legend />
+          <Area
+            type="monotone"
+            dataKey="value"
+            name="Adoption Rate"
+            stroke="#3B82F6"
+            strokeWidth={2}
+            fillOpacity={1}
+            fill="url(#colorAdoption)"
+          />
+        </AreaChart>
+      );
+
+    default:
+      return null;
+  }
+}
 
 // ============= PLAYBOOK TABLE COMPONENT (KEEP) =============
-const CompletionBar = ({ value }: { value: number }) => {
-  const color =
-    value > 80 ? 'bg-green-500' : value >= 60 ? 'bg-yellow-500' : 'bg-red-500';
-  return (
-    <div className="w-full bg-gray-200 rounded-full h-2.5">
-      <div
-        className={cn('h-2.5 rounded-full', color)}
-        style={{ width: `${value}%` }}
-      ></div>
-    </div>
-  );
-};
-
 const ImpactText = ({ value }: { value: number }) => {
   const color =
-    value > 10 ? 'text-green-600' : value >= 7 ? 'text-blue-600' : 'text-gray-600';
+    value > 10
+      ? 'text-green-600'
+      : value >= 7
+      ? 'text-blue-600'
+      : 'text-gray-600';
   return <span className={cn('font-semibold', color)}>+{value}%</span>;
 };
 
@@ -238,16 +329,28 @@ function CoachingCard({
 }
 
 export default function TeamPlaybookPage() {
-  // State Management - KEEP ALL FEATURES
   const [selectedMetric, setSelectedMetric] = useState('overall');
   const [chartType, setChartType] = useState('line');
   const [timeframe, setTimeframe] = useState('30-days');
-  const [chartData, setChartData] = useState<any[]>([]);
 
-  // Update chart data when controls change
-  useEffect(() => {
-    const data = generatePlaybookData(selectedMetric, timeframe);
-    setChartData(data);
+  const chartData = useMemo(() => {
+    return generatePlaybookData(selectedMetric, timeframe);
+  }, [selectedMetric, timeframe]);
+  
+  const chartTitle = useMemo(() => {
+    const metrics: Record<string, string> = {
+      'overall': 'Overall Playbook Adoption',
+      'discovery': 'Discovery Stage Adoption',
+      'demo': 'Demo Stage Adoption',
+      'negotiation': 'Negotiation Stage Adoption',
+      'win-rate-impact': 'Win Rate Impact'
+    }
+    const periods: Record<string, string> = {
+      '7-days': 'Last 7 Days',
+      '30-days': 'Last 30 Days',
+      '90-days': 'Last Quarter'
+    }
+    return `${metrics[selectedMetric]} - ${periods[timeframe]}`
   }, [selectedMetric, timeframe]);
 
   return (
@@ -262,16 +365,19 @@ export default function TeamPlaybookPage() {
         </p>
       </div>
 
-      {/* CHART SECTION WITH CONTROLS - FIXED X/Y AXIS */}
+      {/* CHART SECTION WITH CONTROLS */}
       <div className="bg-white rounded-lg p-6 shadow-sm mb-8">
-        {/* Control Panel - KEEP ALL DROPDOWNS */}
+        {/* Control Panel */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           {/* Metric Selector */}
           <div>
             <label className="text-sm font-medium text-gray-700 mb-2 block">
               Metric to Display
             </label>
-            <Select value={selectedMetric} onValueChange={setSelectedMetric}>
+            <Select
+              value={selectedMetric}
+              onValueChange={value => setSelectedMetric(value)}
+            >
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
@@ -294,7 +400,10 @@ export default function TeamPlaybookPage() {
             <label className="text-sm font-medium text-gray-700 mb-2 block">
               Chart Type
             </label>
-            <Select value={chartType} onValueChange={setChartType}>
+            <Select
+              value={chartType}
+              onValueChange={value => setChartType(value)}
+            >
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
@@ -311,7 +420,10 @@ export default function TeamPlaybookPage() {
             <label className="text-sm font-medium text-gray-700 mb-2 block">
               Time Period
             </label>
-            <Select value={timeframe} onValueChange={setTimeframe}>
+            <Select
+              value={timeframe}
+              onValueChange={value => setTimeframe(value)}
+            >
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
@@ -324,7 +436,7 @@ export default function TeamPlaybookPage() {
           </div>
         </div>
 
-        {/* Export Buttons - KEEP FUNCTIONALITY */}
+        {/* Export Buttons */}
         <div className="flex gap-2 mb-6 pb-4 border-b border-gray-200">
           <Button
             size="sm"
@@ -354,95 +466,16 @@ export default function TeamPlaybookPage() {
 
         {/* Chart Title */}
         <h3 className="text-lg font-semibold text-gray-900 mb-6">
-          {getPlaybookChartTitle(selectedMetric, timeframe)}
+          {chartTitle}
         </h3>
 
-        {/* FIXED CHART WITH FORCED AXIS VISIBILITY */}
-        <div className="w-full bg-gray-50 p-4 rounded-lg" style={{ height: '450px' }}>
+        {/* DYNAMIC CHART */}
+        <div
+          className="w-full bg-gray-50 p-4 rounded-lg"
+          style={{ height: '450px' }}
+        >
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart
-              data={chartData}
-              margin={{ top: 20, right: 40, bottom: 60, left: 60 }}
-            >
-              {/* Grid - Make it highly visible */}
-              <CartesianGrid 
-                strokeDasharray="5 5" 
-                stroke="#D1D5DB" 
-                strokeWidth={1}
-              />
-              
-              {/* X-Axis - Force visibility */}
-              <XAxis 
-                dataKey="name"
-                height={50}
-                tick={{ 
-                  fill: '#1F2937', 
-                  fontSize: 14,
-                  fontWeight: 600 
-                }}
-                tickLine={{ stroke: '#1F2937', strokeWidth: 2 }}
-                axisLine={{ stroke: '#1F2937', strokeWidth: 2 }}
-                stroke="#1F2937"
-              />
-              
-              {/* Y-Axis - Force visibility */}
-              <YAxis 
-                width={50}
-                tick={{ 
-                  fill: '#1F2937', 
-                  fontSize: 14,
-                  fontWeight: 600 
-                }}
-                tickLine={{ stroke: '#1F2937', strokeWidth: 2 }}
-                axisLine={{ stroke: '#1F2937', strokeWidth: 2 }}
-                stroke="#1F2937"
-                label={{ 
-                  value: 'Adoption %', 
-                  angle: -90, 
-                  position: 'insideLeft',
-                  style: { fill: '#1F2937', fontWeight: 600 }
-                }}
-              />
-              
-              {/* Tooltip */}
-              <Tooltip 
-                contentStyle={{
-                  backgroundColor: 'white',
-                  border: '2px solid #3B82F6',
-                  borderRadius: '8px',
-                  padding: '12px',
-                  fontWeight: 600
-                }}
-              />
-              
-              {/* Legend */}
-              <Legend 
-                wrapperStyle={{ 
-                  paddingTop: '20px',
-                  fontWeight: 600
-                }}
-              />
-              
-              {/* Line */}
-              <Line 
-                type="monotone" 
-                dataKey="value" 
-                name="Adoption Rate"
-                stroke="#3B82F6" 
-                strokeWidth={3}
-                dot={{ 
-                  fill: '#3B82F6', 
-                  r: 6,
-                  strokeWidth: 2,
-                  stroke: 'white'
-                }}
-                activeDot={{ 
-                  r: 8,
-                  strokeWidth: 3,
-                  stroke: 'white'
-                }}
-              />
-            </LineChart>
+            {renderChart(chartType, chartData)}
           </ResponsiveContainer>
         </div>
       </div>
