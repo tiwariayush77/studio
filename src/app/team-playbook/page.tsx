@@ -42,8 +42,8 @@ function generatePlaybookData(metric: string, timeframe: string) {
 
   // Generate data based on metric
   return Array.from({ length: weeks }, (_, i) => ({
-    label: `Week ${i + 1}`,
-    adoption: Math.floor(Math.random() * 20) + 70, // 70-90% adoption
+    name: `Week ${i + 1}`,
+    value: Math.floor(Math.random() * 20) + 70, // 70-90% adoption
   }));
 }
 
@@ -97,91 +97,6 @@ function downloadFile(content: string, filename: string, type: string) {
   window.URL.revokeObjectURL(url);
 }
 
-// ============= FIXED CHART RENDERING WITH X/Y AXIS =============
-
-function renderPlaybookChart(type: string, data: any[]) {
-  if (!data || data.length === 0) {
-    return (
-      <div className="flex items-center justify-center h-full text-gray-500">
-        No data available
-      </div>
-    );
-  }
-
-  const commonProps = {
-    data,
-    margin: { top: 5, right: 30, left: 20, bottom: 5 },
-  };
-
-  const axisComponents = (
-    <>
-      <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-      <XAxis
-        dataKey="label"
-        stroke="#9CA3AF"
-        style={{ fontSize: '12px' }}
-      />
-      <YAxis stroke="#9CA3AF" style={{ fontSize: '12px' }} />
-      <Tooltip
-        contentStyle={{
-          backgroundColor: 'white',
-          border: '1px solid #E5E7EB',
-          borderRadius: '8px',
-          padding: '8px',
-        }}
-      />
-      <Legend />
-    </>
-  );
-
-  switch (type) {
-    case 'line':
-      return (
-        <LineChart {...commonProps}>
-          {axisComponents}
-          <Line
-            type="monotone"
-            dataKey="adoption"
-            stroke="#3B82F6"
-            strokeWidth={2.5}
-            dot={{ fill: '#3B82F6', r: 4 }}
-            activeDot={{ r: 6 }}
-          />
-        </LineChart>
-      );
-
-    case 'bar':
-      return (
-        <BarChart {...commonProps}>
-          {axisComponents}
-          <Bar dataKey="adoption" fill="#3B82F6" />
-        </BarChart>
-      );
-
-    case 'area':
-      return (
-        <AreaChart {...commonProps}>
-          <defs>
-            <linearGradient id="colorAdoption" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.8} />
-              <stop offset="95%" stopColor="#3B82F6" stopOpacity={0} />
-            </linearGradient>
-          </defs>
-          {axisComponents}
-          <Area
-            type="monotone"
-            dataKey="adoption"
-            stroke="#3B82F6"
-            fillOpacity={1}
-            fill="url(#colorAdoption)"
-          />
-        </AreaChart>
-      );
-
-    default:
-      return null;
-  }
-}
 
 // ============= PLAYBOOK TABLE COMPONENT (KEEP) =============
 const CompletionBar = ({ value }: { value: number }) => {
@@ -438,14 +353,96 @@ export default function TeamPlaybookPage() {
         </div>
 
         {/* Chart Title */}
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+        <h3 className="text-lg font-semibold text-gray-900 mb-6">
           {getPlaybookChartTitle(selectedMetric, timeframe)}
         </h3>
 
-        {/* FIXED CHART WITH PROPER X/Y AXIS */}
-        <div className="h-[300px]">
+        {/* FIXED CHART WITH FORCED AXIS VISIBILITY */}
+        <div className="w-full bg-gray-50 p-4 rounded-lg" style={{ height: '450px' }}>
           <ResponsiveContainer width="100%" height="100%">
-            {renderPlaybookChart(chartType, chartData)}
+            <LineChart
+              data={chartData}
+              margin={{ top: 20, right: 40, bottom: 60, left: 60 }}
+            >
+              {/* Grid - Make it highly visible */}
+              <CartesianGrid 
+                strokeDasharray="5 5" 
+                stroke="#D1D5DB" 
+                strokeWidth={1}
+              />
+              
+              {/* X-Axis - Force visibility */}
+              <XAxis 
+                dataKey="name"
+                height={50}
+                tick={{ 
+                  fill: '#1F2937', 
+                  fontSize: 14,
+                  fontWeight: 600 
+                }}
+                tickLine={{ stroke: '#1F2937', strokeWidth: 2 }}
+                axisLine={{ stroke: '#1F2937', strokeWidth: 2 }}
+                stroke="#1F2937"
+              />
+              
+              {/* Y-Axis - Force visibility */}
+              <YAxis 
+                width={50}
+                tick={{ 
+                  fill: '#1F2937', 
+                  fontSize: 14,
+                  fontWeight: 600 
+                }}
+                tickLine={{ stroke: '#1F2937', strokeWidth: 2 }}
+                axisLine={{ stroke: '#1F2937', strokeWidth: 2 }}
+                stroke="#1F2937"
+                label={{ 
+                  value: 'Adoption %', 
+                  angle: -90, 
+                  position: 'insideLeft',
+                  style: { fill: '#1F2937', fontWeight: 600 }
+                }}
+              />
+              
+              {/* Tooltip */}
+              <Tooltip 
+                contentStyle={{
+                  backgroundColor: 'white',
+                  border: '2px solid #3B82F6',
+                  borderRadius: '8px',
+                  padding: '12px',
+                  fontWeight: 600
+                }}
+              />
+              
+              {/* Legend */}
+              <Legend 
+                wrapperStyle={{ 
+                  paddingTop: '20px',
+                  fontWeight: 600
+                }}
+              />
+              
+              {/* Line */}
+              <Line 
+                type="monotone" 
+                dataKey="value" 
+                name="Adoption Rate"
+                stroke="#3B82F6" 
+                strokeWidth={3}
+                dot={{ 
+                  fill: '#3B82F6', 
+                  r: 6,
+                  strokeWidth: 2,
+                  stroke: 'white'
+                }}
+                activeDot={{ 
+                  r: 8,
+                  strokeWidth: 3,
+                  stroke: 'white'
+                }}
+              />
+            </LineChart>
           </ResponsiveContainer>
         </div>
       </div>
