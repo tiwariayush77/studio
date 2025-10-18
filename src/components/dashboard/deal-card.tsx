@@ -35,14 +35,15 @@ const riskStyles = {
 };
 
 const riskGradientStyles = {
-    high: "from-red-600 to-red-700",
-    medium: "from-yellow-600 to-yellow-700",
-    low: "from-green-600 to-green-700",
+    high: "bg-gradient-to-br from-red-600 to-red-700",
+    medium: "bg-gradient-to-br from-yellow-500 to-yellow-600",
+    low: "bg-gradient-to-br from-green-500 to-green-600",
 }
 
 export function DealCard({ deal }: { deal: Deal }) {
-  const currentRiskStyle = riskStyles[deal.riskLevel];
-  const currentRiskGradient = riskGradientStyles[deal.riskLevel];
+  const riskLevel = deal.riskScore >= 75 ? 'high' : deal.riskScore >= 50 ? 'medium' : 'low';
+  const currentRiskStyle = riskStyles[riskLevel];
+  const currentRiskGradient = riskGradientStyles[riskLevel];
 
   return (
     <Card
@@ -51,8 +52,8 @@ export function DealCard({ deal }: { deal: Deal }) {
         currentRiskStyle
       )}
     >
-      <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center gap-2 flex-wrap flex-1">
+      <div className="flex items-start justify-between mb-3">
+        <div className="flex items-center gap-2 flex-wrap flex-1 mr-4">
           <Link href={`/call-analysis/${deal.id}`}>
             <h3 className="text-lg font-semibold text-gray-900 hover:text-primary transition-colors">
               {deal.company} - {deal.product}
@@ -71,9 +72,9 @@ export function DealCard({ deal }: { deal: Deal }) {
             Rep: {deal.rep.name} →
           </Link>
         </div>
-        <div className={cn("w-14 h-14 rounded-full flex flex-col items-center justify-center flex-shrink-0 ml-4", currentRiskGradient)}>
-            <p className="text-xl font-bold text-white">{deal.riskScore}</p>
-            <p className="text-[10px] text-white/80 -mt-1">/100</p>
+        <div className={cn("w-14 h-14 rounded-full flex flex-col items-center justify-center flex-shrink-0 shadow-lg", currentRiskGradient)}>
+            <span className="text-xl font-bold text-white leading-none">{deal.riskScore}</span>
+            <span className="text-[10px] text-white/80 leading-none mt-0.5">/100</span>
         </div>
       </div>
       
