@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useState } from 'react';
 import Link from 'next/link';
@@ -40,8 +40,8 @@ export function TeamPerformanceSidebar() {
   const [filter, setFilter] = useState<FilterType>("all");
 
   const filteredReps = REPS.sort((a, b) => a.rank - b.rank).filter(rep => {
-    if (filter === "top") return rep.score >= 8.4;
-    if (filter === "coaching") return rep.score < 7.8;
+    if (filter === "top") return rep.adoption >= 85 && rep.winRate >= 38;
+    if (filter === "coaching") return rep.adoption < 70 || rep.winRate < 30;
     return true;
   });
 
@@ -57,9 +57,9 @@ export function TeamPerformanceSidebar() {
             <Button
               key={f}
               size="sm"
-              variant={filter === f ? "secondary" : "ghost"}
+              variant={filter === f ? 'default' : 'ghost'}
               onClick={() => setFilter(f)}
-              className={cn(filter === f && "bg-blue-50 text-primary")}
+              className={filter === f ? 'bg-blue-600 text-white' : ''}
             >
               {f === 'top' ? 'Top Performers' : f === 'coaching' ? 'Needs Coaching' : 'All'}
             </Button>
@@ -81,6 +81,9 @@ export function TeamPerformanceSidebar() {
           </TableBody>
         </Table>
         <div className="mt-4 pt-4 border-t">
+            <p className="text-xs text-gray-500 mb-2">
+                Showing {filteredReps.length} of {REPS.length} reps
+            </p>
           <Link href="/team-playbook" className="text-sm text-primary hover:underline">
             View full team playbook &rarr;
           </Link>
