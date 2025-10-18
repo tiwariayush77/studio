@@ -16,9 +16,9 @@ export const metadata: Metadata = {
   title: 'ZIME Insights',
   description: 'AI-Powered Sales Pipeline Dashboard',
   icons: {
-    icon: 'https://s3.us-west-2.amazonaws.com/zime.ai-website-asset/logo/zime-coral-black.png',
-    shortcut: 'https://s3.us-west-2.amazonaws.com/zime.ai-website-asset/logo/zime-coral-black.png',
-    apple: 'https://s3.us-west-2.amazonaws.com/zime.ai-website-asset/logo/zime-coral-black.png',
+    icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' stroke='%23FF6B4A' stroke-width='6' fill='none'/%3E%3Ccircle cx='50' cy='50' r='30' stroke='%23FF6B4A' stroke-width='6' fill='none'/%3E%3Ccircle cx='50' cy='50' r='15' fill='%23FF6B4A'/%3E%3Cpath d='M62 38L50 50L54 54L66 42Z' fill='%234CAF50'/%3E%3C/svg%3E",
+    shortcut: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' stroke='%23FF6B4A' stroke-width='6' fill='none'/%3E%3Ccircle cx='50' cy='50' r='30' stroke='%23FF6B4A' stroke-width='6' fill='none'/%3E%3Ccircle cx='50' cy='50' r='15' fill='%23FF6B4A'/%3E%3Cpath d='M62 38L50 50L54 54L66 42Z' fill='%234CAF50'/%3E%3C/svg%3E",
+    apple: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' stroke='%23FF6B4A' stroke-width='6' fill='none'/%3E%3Ccircle cx='50' cy='50' r='30' stroke='%23FF6B4A' stroke-width='6' fill='none'/%3E%3Ccircle cx='50' cy='50' r='15' fill='%23FF6B4A'/%3E%3Cpath d='M62 38L50 50L54 54L66 42Z' fill='%234CAF50'/%3E%3C/svg%3E",
   },
 };
 

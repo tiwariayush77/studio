@@ -79,14 +79,14 @@ export function DealCard({ deal }: { deal: Deal }) {
       </div>
       
       <div className="mt-3">
-        <h4 className="text-xs font-semibold text-gray-700 mb-1.5">
+        <h4 className="text-sm font-semibold text-gray-800 mb-2">
           Root Causes:
         </h4>
-        <div className="space-y-1.5">
+        <div className="space-y-2">
           {deal.rootCauses.map((cause, index) => (
             <div key={index} className="flex items-start gap-2">
-              <X className="w-3.5 h-3.5 text-red-600 flex-shrink-0 mt-0.5" />
-              <span className="text-xs text-gray-600 leading-snug">{cause}</span>
+              <X className="w-4 h-4 text-red-600 flex-shrink-0 mt-0.5" />
+              <span className="text-sm text-gray-700 font-medium leading-relaxed">{cause}</span>
             </div>
           ))}
         </div>
