@@ -22,15 +22,13 @@ export default function DashboardPage() {
       <div className="space-y-8">
         <SummaryCards deals={DEALS} activeFilter={riskFilter} setFilter={setRiskFilter} />
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-          <div className="lg:col-span-2 space-y-6">
-             <div className="grid grid-cols-1 xl:grid-cols-2 3xl:grid-cols-2 gap-4">
-                {filteredDeals.map((deal: Deal) => (
-                    <DealCard key={deal.id} deal={deal} />
-                ))}
-            </div>
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-6 items-start">
+          <div className="flex flex-col gap-4">
+            {filteredDeals.map((deal: Deal) => (
+                <DealCard key={deal.id} deal={deal} />
+            ))}
           </div>
-          <div className="lg:col-span-1 space-y-6">
+          <div className="lg:sticky lg:top-24 space-y-6">
             <TeamPerformanceSidebar />
             <QuickActions />
           </div>

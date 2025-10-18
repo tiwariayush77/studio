@@ -42,88 +42,95 @@ const riskStyles = {
 };
 
 export function DealCard({ deal }: { deal: Deal }) {
+  const currentRiskStyle = riskStyles[deal.riskLevel];
+
   return (
     <Card
       className={cn(
-        "p-4 shadow-sm hover:shadow-md transition-all duration-200",
-        riskStyles[deal.riskLevel].border,
+        "p-5 shadow-sm hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 min-h-[160px] flex flex-col justify-between",
+        currentRiskStyle.border,
         "border-l-4"
       )}
     >
-      <div className="flex items-start justify-between">
-        <div className="flex-1">
-          <p className="text-lg font-semibold text-gray-900 mb-2">
-            {deal.company} - {deal.product}
-          </p>
-        </div>
-        <div className={cn("w-14 h-14 rounded-full flex flex-col items-center justify-center flex-shrink-0 ml-4", riskStyles[deal.riskLevel].gradient)}>
-            <p className="text-xl font-bold text-white">{deal.riskScore}</p>
-            <p className="text-xs text-white opacity-80 -mt-1">/100</p>
-        </div>
-      </div>
-      
-      <div className="flex flex-wrap items-center gap-2 mt-2">
-        <Badge className="bg-green-600 text-white hover:bg-green-700 text-xs font-medium rounded-full">
-          ${(deal.value / 1000).toFixed(0)}K
-        </Badge>
-        <Badge variant="secondary" className="bg-gray-100 text-gray-700 hover:bg-gray-200 text-xs font-medium rounded-full">
-          {deal.stage}
-        </Badge>
-        <Badge variant="secondary" className="bg-gray-50 text-gray-500 hover:bg-gray-100 text-xs rounded-full">
-          {deal.daysInStage} days in stage
-        </Badge>
-        <Link href={`/rep-scorecard/${deal.rep.id}`} className="text-primary hover:underline text-xs font-medium cursor-pointer">
-          Rep: {deal.rep.name} &rarr;
-        </Link>
-      </div>
-
-      <div className="mt-3">
-        <p className="text-sm font-semibold text-gray-700 mb-2">Root Causes:</p>
-        <ul className="space-y-1">
-          {deal.rootCauses.map((cause, index) => (
-            <li key={index} className="flex items-start gap-2">
-              <div className={cn("w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0", riskStyles[deal.riskLevel].dot)} />
-              <span className="text-sm text-gray-600">{cause}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div className="mt-3 bg-yellow-50 border-l-4 border-yellow-500 p-3 rounded-lg flex items-center gap-2">
-        <Target className="text-yellow-700 w-4 h-4 flex-shrink-0" />
-        <p className="text-sm font-medium text-yellow-900">{deal.recommendedAction}</p>
-      </div>
-      
-      <div className="mt-3 flex gap-2">
-        <Button asChild size="sm" className="bg-blue-600 hover:bg-blue-700">
-            <Link href={`/call-analysis/${deal.id}`}>
-                <Phone /> View Call
-            </Link>
-        </Button>
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button variant="outline" size="sm">
-                <MessageCircle /> Coach Rep
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Coach {deal.rep.name} on {deal.company} Deal</DialogTitle>
-              <DialogDescription>
-                Provide a quick coaching note or suggest an action.
-              </DialogDescription>
-            </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <div className="grid gap-2">
-                <Label htmlFor="coaching-note">Coaching Note</Label>
-                <Textarea id="coaching-note" placeholder="E.g., Let's roleplay budget conversations tomorrow." />
-              </div>
+      <div>
+        <div className="flex items-start justify-between">
+          <div className="flex-1">
+            <p className="text-xl font-semibold text-gray-900">
+              {deal.company} - {deal.product}
+            </p>
+            <div className="flex flex-wrap items-center gap-2 mt-3">
+              <Badge className="bg-green-600 text-white hover:bg-green-700 text-xs font-medium rounded-full">
+                ${(deal.value / 1000).toFixed(0)}K
+              </Badge>
+              <Badge variant="secondary" className="bg-gray-100 text-gray-700 hover:bg-gray-200 text-xs font-medium rounded-full">
+                {deal.stage}
+              </Badge>
+              <Badge variant="secondary" className="bg-gray-50 text-gray-500 hover:bg-gray-100 text-xs rounded-full">
+                {deal.daysInStage} days in stage
+              </Badge>
+              <Link href={`/rep-scorecard/${deal.rep.id}`} className="text-blue-600 hover:underline text-sm font-medium cursor-pointer">
+                Rep: {deal.rep.name} &rarr;
+              </Link>
             </div>
-            <DialogFooter>
-              <Button type="submit">Send Note</Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+          </div>
+          <div className={cn("w-16 h-16 rounded-full flex flex-col items-center justify-center flex-shrink-0 ml-4", currentRiskStyle.gradient)}>
+              <p className="text-2xl font-bold text-white">{deal.riskScore}</p>
+              <p className="text-xs text-white opacity-80 -mt-1">/100</p>
+          </div>
+        </div>
+        
+        <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+           <div>
+              <p className="text-sm font-semibold text-gray-700">Root Causes:</p>
+              <ul className="space-y-1.5 mt-2">
+                {deal.rootCauses.map((cause, index) => (
+                  <li key={index} className="flex items-start gap-2">
+                    <div className={cn("w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0", currentRiskStyle.dot)} />
+                    <span className="text-sm text-gray-600 leading-relaxed">{cause}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+             <div className="bg-yellow-50 border-l-4 border-yellow-500 p-3 rounded-lg flex items-start gap-2">
+              <Target className="text-yellow-700 w-4 h-4 flex-shrink-0 mt-0.5" />
+              <p className="text-sm font-medium text-yellow-900">{deal.recommendedAction}</p>
+            </div>
+        </div>
+      </div>
+      
+      <div className="mt-4 flex items-center justify-between">
+        <div className="flex gap-2">
+          <Button asChild size="sm" className="bg-blue-600 hover:bg-blue-700">
+              <Link href={`/call-analysis/${deal.id}`}>
+                  <Phone /> View Call
+              </Link>
+          </Button>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="outline" size="sm">
+                  <MessageCircle /> Coach Rep
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Coach {deal.rep.name} on {deal.company} Deal</DialogTitle>
+                <DialogDescription>
+                  Provide a quick coaching note or suggest an action.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid gap-4 py-4">
+                <div className="grid gap-2">
+                  <Label htmlFor="coaching-note">Coaching Note</Label>
+                  <Textarea id="coaching-note" placeholder="E.g., Let's roleplay budget conversations tomorrow." />
+                </div>
+              </div>
+              <DialogFooter>
+                <Button type="submit">Send Note</Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        </div>
+        <p className="text-xs text-gray-500">Last activity: {deal.lastActivity}</p>
       </div>
     </Card>
   );
