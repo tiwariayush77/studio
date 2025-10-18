@@ -42,8 +42,8 @@ export function Header() {
         <div className="max-w-[1600px] mx-auto px-6 flex h-full items-center justify-between">
           
           <Link href="/" className="cursor-pointer hover:opacity-90 transition-opacity">
-            <Image 
-              src="/zime-coral-black.jpg"
+            <Image
+              src="https://s3.us-west-2.amazonaws.com/zime.ai-website-asset/logo/zime-coral-black.png"
               alt="ZIME AI"
               width={120}
               height={32}
