@@ -48,7 +48,7 @@ const SummaryCard = ({
   return (
     <Card
       className={cn(
-        "p-6 shadow-sm hover:shadow-md transition-all cursor-pointer relative",
+        "p-6 shadow-lg hover:shadow-xl transition-all cursor-pointer relative",
         colors.bg,
         `border-l-4 ${colors.border}`,
         activeFilter === riskLevel && "ring-2 ring-primary"

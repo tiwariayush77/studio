@@ -72,7 +72,7 @@ export function DealCard({ deal }: { deal: Deal }) {
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-2 flex-wrap flex-1 mr-4">
           <Link href={`/call-analysis/${deal.id}`}>
-            <h3 className="text-lg font-semibold text-gray-900 hover:text-primary transition-colors">
+            <h3 className="text-xl font-bold text-gray-900 hover:text-primary transition-colors tracking-tight">
               {deal.company} - {deal.product}
             </h3>
           </Link>
@@ -94,7 +94,7 @@ export function DealCard({ deal }: { deal: Deal }) {
             Rep: {deal.rep.name} →
           </Link>
         </div>
-        <div className={cn("h-9 px-3 rounded-lg flex items-center justify-center gap-1.5 flex-shrink-0 shadow-md", currentRiskBg)}>
+        <div className={cn("h-9 px-3 rounded-md flex items-center justify-center gap-1.5 flex-shrink-0 shadow-md", currentRiskBg)}>
             <TrendIcon className="w-4 h-4 text-white/80" />
             <span className="text-lg font-bold text-white leading-none">{deal.riskScore}</span>
             {deal.riskScoreTrend !== 'stable' && (
@@ -123,7 +123,7 @@ export function DealCard({ deal }: { deal: Deal }) {
         </div>
       </div>
       
-      <div className="mt-4">
+      <div className="mt-6 pt-4">
         <div className="flex items-center gap-1.5 mb-1.5">
           <h4 className="text-sm font-semibold text-gray-700">
             Recommended Action:
@@ -149,16 +149,16 @@ export function DealCard({ deal }: { deal: Deal }) {
         </div>
       </div>
       
-      <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
+      <div className="mt-5 pt-4 border-t border-gray-100 flex items-center justify-between">
         <div className="flex gap-2">
-          <Button asChild size="sm" className="bg-blue-600 hover:bg-blue-700 h-8 text-xs">
+          <Button asChild className="bg-blue-600 hover:bg-blue-700 h-9 px-4 font-semibold">
               <Link href={`/call-analysis/${deal.id}`}>
                   <Phone className="w-3.5 h-3.5 mr-1.5" /> View Call
               </Link>
           </Button>
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="outline" size="sm" className="h-8 text-xs">
+              <Button variant="outline" size="sm" className="h-9 font-semibold">
                   <MessageCircle className="w-3.5 h-3.5 mr-1.5" /> Coach
               </Button>
             </DialogTrigger>
@@ -180,7 +180,7 @@ export function DealCard({ deal }: { deal: Deal }) {
               </DialogFooter>
             </DialogContent>
           </Dialog>
-          <Button variant="ghost" size="sm" className="h-8 text-xs">
+          <Button variant="ghost" size="sm" className="h-9 font-semibold">
               <Check className="w-3.5 h-3.5 mr-1.5" /> Safe
           </Button>
         </div>
@@ -188,7 +188,3 @@ export function DealCard({ deal }: { deal: Deal }) {
     </Card>
   );
 }
-
-    
-
-    
