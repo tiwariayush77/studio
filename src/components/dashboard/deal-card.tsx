@@ -94,17 +94,14 @@ export function DealCard({ deal }: { deal: Deal }) {
             Rep: {deal.rep.name} →
           </Link>
         </div>
-        <div className={cn("w-24 h-[72px] rounded-lg flex flex-col items-center justify-center flex-shrink-0 shadow-lg relative p-2", currentRiskBg)}>
-            <TrendIcon className="w-5 h-5 text-white/70 absolute top-1.5 left-1.5" />
-            <div className="flex items-baseline justify-center w-full">
-                <span className="text-3xl font-bold text-white leading-none">{deal.riskScore}</span>
-                {deal.riskScoreTrend !== 'stable' && (
-                    <span className="text-base font-semibold text-white/80 ml-1">
-                        {scoreChangeText}
-                    </span>
-                )}
-            </div>
-            <span className="text-[10px] text-white/80 leading-none mt-1">Risk Score</span>
+        <div className={cn("h-7 px-3 rounded-md flex items-center justify-center gap-1.5 flex-shrink-0 shadow-md", currentRiskBg)}>
+            <TrendIcon className="w-3.5 h-3.5 text-white/80" />
+            <span className="text-base font-bold text-white leading-none">{deal.riskScore}</span>
+            {deal.riskScoreTrend !== 'stable' && (
+                <span className="text-xs font-semibold text-white/80">
+                    {scoreChangeText}
+                </span>
+            )}
         </div>
       </div>
       
@@ -191,5 +188,7 @@ export function DealCard({ deal }: { deal: Deal }) {
     </Card>
   );
 }
+
+    
 
     
