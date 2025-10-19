@@ -40,9 +40,9 @@ const riskStyles = {
 };
 
 const riskBgStyles = {
-    high: "bg-red-100 text-red-700",
-    medium: "bg-orange-100 text-orange-700",
-    low: "bg-green-100 text-green-700",
+    high: "bg-red-600 text-white",
+    medium: "bg-orange-500 text-white",
+    low: "bg-green-600 text-white",
 }
 
 const trendIcon = {
@@ -66,7 +66,7 @@ export function DealCard({ deal }: { deal: Deal }) {
   return (
     <Card
       className={cn(
-        "p-5 shadow-xl hover:shadow-2xl transition-all duration-300 border-l-4",
+        "p-5 shadow-lg hover:shadow-xl transition-all duration-300 border-l-4",
         currentRiskStyle
       )}
     >
@@ -95,7 +95,7 @@ export function DealCard({ deal }: { deal: Deal }) {
                 </Link>
             </div>
         </div>
-        <div className={cn("h-9 px-3 rounded-md flex items-center justify-center gap-1.5 flex-shrink-0 shadow-inner", currentRiskBg)}>
+        <div className={cn("h-9 px-3 rounded-md flex items-center justify-center gap-1.5 flex-shrink-0", currentRiskBg)}>
             <TrendIcon className="w-4 h-4" />
             <span className="text-lg font-bold leading-none">{deal.riskScore}</span>
             {deal.riskScoreTrend !== 'stable' && (
@@ -106,7 +106,7 @@ export function DealCard({ deal }: { deal: Deal }) {
         </div>
       </div>
       
-      <div className="mt-4">
+      <div className="mt-6">
         <h4 className="text-sm font-semibold text-gray-800 mb-2">
           Root Causes:
         </h4>
@@ -124,7 +124,7 @@ export function DealCard({ deal }: { deal: Deal }) {
         </div>
       </div>
       
-      <div className="mt-6 pt-6 border-t border-gray-100">
+      <div className="mt-4 pt-4 border-t border-gray-100">
         <div className="flex items-center gap-1.5 mb-1.5">
           <h4 className="text-sm font-semibold text-gray-700">
             Recommended Action:
@@ -150,7 +150,7 @@ export function DealCard({ deal }: { deal: Deal }) {
         </div>
       </div>
       
-      <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
+      <div className="mt-3 pt-4 border-t border-gray-100 flex items-center justify-between">
         <div className="flex gap-2">
           <Button asChild className="bg-blue-600 hover:bg-blue-700 h-10 px-5 font-semibold text-base">
               <Link href={`/call-analysis/${deal.id}`}>
