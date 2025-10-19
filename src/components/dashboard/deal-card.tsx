@@ -122,7 +122,7 @@ export function DealCard({ deal }: { deal: Deal }) {
               <X className="w-4 h-4 text-red-600 flex-shrink-0 mt-0.5" />
               <span className="text-sm text-gray-700 font-medium leading-relaxed">{cause}</span>
             </div>
-          ))}
+))}
         </div>
       </div>
       
