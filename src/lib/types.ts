@@ -42,23 +42,9 @@ export type Deal = {
   };
   riskScore: number;
   riskLevel: "high" | "medium" | "low";
-  riskTrend: 'up' | 'down' | 'stable';
-  riskScoreChange: number;
-  scoreChangeReason: string;
   rootCauses: string[];
-  recommendedAction: {
-    text: string;
-    confidence: number;
-    historicalSuccess: string;
-  };
+  recommendedAction: string;
   lastActivity: string;
-  competitor: string | null;
-  hasChampion: boolean;
-  playbook: {
-    completion: number;
-    totalSteps: number;
-    nextStep: string;
-  }
 };
 
 export type CallTranscriptItem = {

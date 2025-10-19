@@ -11,27 +11,13 @@ export const DEALS: Deal[] = [
     rep: { id: 1, name: "Sarah Johnson", avatar: "SJ" },
     riskScore: 85,
     riskLevel: "high",
-    riskTrend: "up",
-    riskScoreChange: 5,
-    scoreChangeReason: "Economic buyer was not identified in the last call.",
     rootCauses: [
       "No economic buyer identified (40% lower win rate when skipped)",
       "Last activity 7 days ago",
       "Rep skipped budget qualification"
     ],
-    recommendedAction: {
-      text: "Schedule multi-threading call with CFO by Friday",
-      confidence: 85,
-      historicalSuccess: "7/10 similar deals with CFO engagement move to next stage"
-    },
-    lastActivity: "7 days ago",
-    competitor: null,
-    hasChampion: false,
-    playbook: {
-      completion: 20,
-      totalSteps: 5,
-      nextStep: "Identify economic buyer"
-    }
+    recommendedAction: "Schedule multi-threading call with CFO by Friday",
+    lastActivity: "7 days ago"
   },
   {
     id: 2,
@@ -43,27 +29,13 @@ export const DEALS: Deal[] = [
     rep: { id: 2, name: "John Smith", avatar: "JS" },
     riskScore: 72,
     riskLevel: "medium",
-    riskTrend: "stable",
-    riskScoreChange: 0,
-    scoreChangeReason: "Integration concerns remain unaddressed.",
     rootCauses: [
       "Only 1 stakeholder engaged (67% lower win rate)",
       "No technical champion identified",
       "Integration concerns not addressed"
     ],
-    recommendedAction: {
-      text: "Schedule technical deep-dive with engineering team this week",
-      confidence: 90,
-      historicalSuccess: "Resolving technical blockers early increases win rate by 25%"
-    },
-    lastActivity: "2 days ago",
-    competitor: "Salesforce",
-    hasChampion: false,
-    playbook: {
-      completion: 60,
-      totalSteps: 5,
-      nextStep: "Address integration concerns"
-    }
+    recommendedAction: "Schedule technical deep-dive with engineering team this week",
+    lastActivity: "2 days ago"
   },
   {
     id: 3,
@@ -75,26 +47,12 @@ export const DEALS: Deal[] = [
     rep: { id: 3, name: "Mike Davis", avatar: "MD" },
     riskScore: 45,
     riskLevel: "low",
-    riskTrend: "down",
-    riskScoreChange: -10,
-    scoreChangeReason: "Pricing discussion started, positive signals detected.",
     rootCauses: [
       "Pricing discussion in progress",
       "ROI calculator not shared yet"
     ],
-    recommendedAction: {
-      text: "Send ROI calculator showing 40% time savings by EOD",
-      confidence: 95,
-      historicalSuccess: "Deals with ROI calculator close 30% faster"
-    },
-    lastActivity: "1 day ago",
-    competitor: null,
-    hasChampion: true,
-    playbook: {
-      completion: 80,
-      totalSteps: 5,
-      nextStep: "Finalize contract"
-    }
+    recommendedAction: "Send ROI calculator showing 40% time savings by EOD",
+    lastActivity: "1 day ago"
   },
   {
     id: 4,
@@ -106,26 +64,12 @@ export const DEALS: Deal[] = [
     rep: { id: 4, name: "Jessica Chen", avatar: "JC" },
     riskScore: 38,
     riskLevel: "low",
-    riskTrend: "down",
-    riskScoreChange: -15,
-    scoreChangeReason: "Budget confirmed and strong champion identified.",
     rootCauses: [
       "Strong champion identified",
       "Budget confirmed ($30K range)"
     ],
-    recommendedAction: {
-      text: "Move to demo stage - schedule for next week",
-      confidence: 98,
-      historicalSuccess: "85% of deals with champions at this stage proceed to demo"
-    },
-    lastActivity: "Today",
-    competitor: null,
-    hasChampion: true,
-    playbook: {
-      completion: 40,
-      totalSteps: 5,
-      nextStep: "Schedule demo"
-    }
+    recommendedAction: "Move to demo stage - schedule for next week",
+    lastActivity: "Today"
   },
   {
     id: 5,
@@ -137,27 +81,13 @@ export const DEALS: Deal[] = [
     rep: { id: 1, name: "Sarah Johnson", avatar: "SJ" },
     riskScore: 78,
     riskLevel: "high",
-    riskTrend: "up",
-    riskScoreChange: 8,
-    scoreChangeReason: "Demo was delayed for the 3rd time.",
     rootCauses: [
       "Demo delayed 3 times by prospect",
       "No budget discussion yet (18% lower win rate)",
       "Competitor (HubSpot) in final evaluation"
     ],
-    recommendedAction: {
-      text: "Ask about timeline concerns - potential red flag",
-      confidence: 80,
-      historicalSuccess: "Uncovering timeline issues at demo stage salvages 40% of stalled deals"
-    },
-    lastActivity: "5 days ago",
-    competitor: "HubSpot",
-    hasChampion: false,
-    playbook: {
-      completion: 50,
-      totalSteps: 5,
-      nextStep: "Confirm new demo time"
-    }
+    recommendedAction: "Ask about timeline concerns - potential red flag",
+    lastActivity: "5 days ago"
   },
   {
     id: 6,
@@ -169,26 +99,12 @@ export const DEALS: Deal[] = [
     rep: { id: 5, name: "David Martinez", avatar: "DM" },
     riskScore: 68,
     riskLevel: "medium",
-    riskTrend: "up",
-    riskScoreChange: 3,
-    scoreChangeReason: "Legal review is taking longer than the 7-day average.",
     rootCauses: [
       "Legal review taking longer than expected",
       "Security questionnaire pending"
     ],
-    recommendedAction: {
-      text: "Connect with legal team to expedite - offer to answer questions live",
-      confidence: 75,
-      historicalSuccess: "Direct legal engagement can shorten negotiation by an average of 5 days"
-    },
-    lastActivity: "3 days ago",
-    competitor: null,
-    hasChampion: true,
-    playbook: {
-      completion: 80,
-      totalSteps: 5,
-      nextStep: "Get security questionnaire approved"
-    }
+    recommendedAction: "Connect with legal team to expedite - offer to answer questions live",
+    lastActivity: "3 days ago"
   },
   {
     id: 7,
@@ -200,26 +116,12 @@ export const DEALS: Deal[] = [
     rep: { id: 6, name: "Emily Park", avatar: "EP" },
     riskScore: 42,
     riskLevel: "low",
-    riskTrend: "down",
-    riskScoreChange: -8,
-    scoreChangeReason: "VP of Sales is actively engaged.",
     rootCauses: [
       "Active engagement from VP Sales",
       "Pain points clearly articulated"
     ],
-    recommendedAction: {
-      text: "Schedule demo with full team by end of week",
-      confidence: 95,
-      historicalSuccess: "Deals with VP engagement in discovery move to demo 90% of the time"
-    },
-    lastActivity: "Today",
-    competitor: null,
-    hasChampion: true,
-    playbook: {
-      completion: 40,
-      totalSteps: 5,
-      nextStep: "Schedule demo"
-    }
+    recommendedAction: "Schedule demo with full team by end of week",
+    lastActivity: "Today"
   },
   {
     id: 8,
@@ -231,26 +133,12 @@ export const DEALS: Deal[] = [
     rep: { id: 2, name: "John Smith", avatar: "JS" },
     riskScore: 51,
     riskLevel: "medium",
-    riskTrend: "up",
-    riskScoreChange: 2,
-    scoreChangeReason: "New stakeholder (Compliance Officer) introduced, adding complexity.",
     rootCauses: [
       "HIPAA compliance questions raised",
       "Need to involve compliance officer"
     ],
-    recommendedAction: {
-      text: "Share HIPAA compliance documentation + schedule compliance walkthrough",
-      confidence: 88,
-      historicalSuccess: "Proactively sharing compliance docs speeds up HealthTech deals by 20%"
-    },
-    lastActivity: "1 day ago",
-    competitor: null,
-    hasChampion: true,
-    playbook: {
-      completion: 60,
-      totalSteps: 5,
-      nextStep: "Get compliance sign-off"
-    }
+    recommendedAction: "Share HIPAA compliance documentation + schedule compliance walkthrough",
+    lastActivity: "1 day ago"
   },
   {
     id: 9,
@@ -262,26 +150,12 @@ export const DEALS: Deal[] = [
     rep: { id: 7, name: "Rachel Kim", avatar: "RK" },
     riskScore: 55,
     riskLevel: "medium",
-    riskTrend: "stable",
-    riskScoreChange: 0,
-    scoreChangeReason: "Discount request is holding up the deal.",
     rootCauses: [
       "Requesting 20% discount (outside authority)",
       "Comparing with 2 other vendors"
     ],
-    recommendedAction: {
-      text: "Offer extended payment terms instead of discount - share value calculator",
-      confidence: 70,
-      historicalSuccess: "Offering flexible terms over discounts wins 65% of contested deals"
-    },
-    lastActivity: "2 days ago",
-    competitor: "Pipedrive",
-    hasChampion: true,
-    playbook: {
-      completion: 75,
-      totalSteps: 5,
-      nextStep: "Agree on final price"
-    }
+    recommendedAction: "Offer extended payment terms instead of discount - share value calculator",
+    lastActivity: "2 days ago"
   },
   {
     id: 10,
@@ -293,27 +167,13 @@ export const DEALS: Deal[] = [
     rep: { id: 8, name: "Tom Wilson", avatar: "TW" },
     riskScore: 81,
     riskLevel: "high",
-    riskTrend: "up",
-    riskScoreChange: 12,
-    scoreChangeReason: "Champion left the company.",
     rootCauses: [
       "No contact from decision maker in 10 days",
       "Champion left company last week",
       "Budget cycle unclear"
     ],
-    recommendedAction: {
-      text: "URGENT: Find new champion or mark as lost - send breakup email",
-      confidence: 90,
-      historicalSuccess: "Breakup emails re-engage 30% of unresponsive leads"
-    },
-    lastActivity: "10 days ago",
-    competitor: null,
-    hasChampion: false,
-    playbook: {
-      completion: 10,
-      totalSteps: 5,
-      nextStep: "Re-establish contact"
-    }
+    recommendedAction: "URGENT: Find new champion or mark as lost - send breakup email",
+    lastActivity: "10 days ago"
   },
   {
     id: 11,
@@ -325,26 +185,12 @@ export const DEALS: Deal[] = [
     rep: { id: 3, name: "Mike Davis", avatar: "MD" },
     riskScore: 47,
     riskLevel: "low",
-    riskTrend: "down",
-    riskScoreChange: -9,
-    scoreChangeReason: "Positive demo feedback and pricing request received.",
     rootCauses: [
       "Strong technical fit confirmed",
       "Demo went well - requested pricing"
     ],
-    recommendedAction: {
-      text: "Send proposal with ROI breakdown - move to negotiation",
-      confidence: 97,
-      historicalSuccess: "Sending proposal within 24hrs of demo increases close rate by 15%"
-    },
-    lastActivity: "Today",
-    competitor: null,
-    hasChampion: true,
-    playbook: {
-      completion: 60,
-      totalSteps: 5,
-      nextStep: "Send proposal"
-    }
+    recommendedAction: "Send proposal with ROI breakdown - move to negotiation",
+    lastActivity: "Today"
   },
   {
     id: 12,
@@ -356,26 +202,12 @@ export const DEALS: Deal[] = [
     rep: { id: 4, name: "Jessica Chen", avatar: "JC" },
     riskScore: 63,
     riskLevel: "medium",
-    riskTrend: "up",
-    riskScoreChange: 4,
-    scoreChangeReason: "VP is on vacation and contract has not been signed.",
     rootCauses: [
       "Waiting on VP approval (out on vacation)",
       "Contract sent 12 days ago - no signature"
     ],
-    recommendedAction: {
-      text: "Follow up with champion - ask for interim contact while VP is away",
-      confidence: 82,
-      historicalSuccess: "Engaging champion during delays prevents 60% of stalled deals from being lost"
-    },
-    lastActivity: "4 days ago",
-    competitor: null,
-    hasChampion: true,
-    playbook: {
-      completion: 85,
-      totalSteps: 5,
-      nextStep: "Get contract signature"
-    }
+    recommendedAction: "Follow up with champion - ask for interim contact while VP is away",
+    lastActivity: "4 days ago"
   }
 ];
 
