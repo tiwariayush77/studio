@@ -65,7 +65,7 @@ export function DealCard({ deal }: { deal: Deal }) {
   return (
     <Card
       className={cn(
-        "p-5 shadow-lg hover:shadow-xl transition-all duration-300 border-l-4",
+        "p-5 shadow-xl hover:shadow-2xl transition-all duration-300 border-l-4",
         currentRiskStyle
       )}
     >
@@ -80,10 +80,10 @@ export function DealCard({ deal }: { deal: Deal }) {
             ${(deal.value / 1000).toFixed(0)}K
           </Badge>
           <div className="flex items-center gap-1">
-            <Badge variant="secondary" className="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-l-full rounded-r-none font-semibold">
+            <Badge variant="secondary" className="bg-blue-600 text-white hover:bg-blue-700 text-xs px-3 py-1 rounded-l-full rounded-r-none font-semibold">
               {deal.stage}
             </Badge>
-            <Badge variant="secondary" className="bg-blue-200 text-blue-700 text-xs px-2 py-1 rounded-r-full rounded-l-none font-bold">
+            <Badge variant="secondary" className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-r-full rounded-l-none font-bold">
               {deal.stageProgress}%
             </Badge>
           </div>
@@ -110,7 +110,7 @@ export function DealCard({ deal }: { deal: Deal }) {
           Root Causes:
         </h4>
         <div className="space-y-2">
-            <div className="flex items-start gap-2 bg-yellow-50 text-yellow-900 p-2 rounded-md border-l-2 border-yellow-400">
+            <div className="flex items-start gap-2 bg-gradient-to-r from-yellow-50 to-amber-50 text-yellow-900 p-2 rounded-md border-l-2 border-yellow-400">
                 <Sparkles className="w-4 h-4 text-yellow-600 flex-shrink-0 mt-0.5" />
                 <span className="text-sm font-medium leading-relaxed">{deal.aiInsight}</span>
             </div>
@@ -123,7 +123,7 @@ export function DealCard({ deal }: { deal: Deal }) {
         </div>
       </div>
       
-      <div className="mt-6 pt-4">
+      <div className="mt-6 pt-6 border-t border-gray-100">
         <div className="flex items-center gap-1.5 mb-1.5">
           <h4 className="text-sm font-semibold text-gray-700">
             Recommended Action:
@@ -141,10 +141,10 @@ export function DealCard({ deal }: { deal: Deal }) {
             </Tooltip>
           </TooltipProvider>
         </div>
-        <div className="bg-yellow-50 border-l-3 border-yellow-500 p-3 rounded-lg">
+        <div className="bg-gradient-to-r from-blue-50 to-blue-100 border-l-3 border-blue-500 p-3 rounded-lg">
           <div className="flex items-start gap-2">
-            <Target className="w-4 h-4 text-yellow-700 flex-shrink-0 mt-0.5" />
-            <span className="text-sm font-medium text-yellow-900 leading-snug">{deal.recommendedAction}</span>
+            <Target className="w-4 h-4 text-blue-700 flex-shrink-0 mt-0.5" />
+            <span className="text-sm font-medium text-blue-900 leading-snug">{deal.recommendedAction}</span>
           </div>
         </div>
       </div>
