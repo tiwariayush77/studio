@@ -51,9 +51,9 @@ const trendIcon = {
 }
 
 const trendColor = {
-    up: "text-red-500",
-    down: "text-green-500",
-    stable: "text-gray-400"
+    up: "text-red-100",
+    down: "text-green-100",
+    stable: "text-gray-100"
 }
 
 export function DealCard({ deal }: { deal: Deal }) {
@@ -101,15 +101,19 @@ export function DealCard({ deal }: { deal: Deal }) {
             Rep: {deal.rep.name} →
           </Link>
         </div>
-        <div className="relative">
-             <div className={cn("w-14 h-14 rounded-full flex flex-col items-center justify-center flex-shrink-0 shadow-lg", currentRiskGradient)}>
+        <div className={cn("w-14 h-14 rounded-full flex flex-col items-center justify-center flex-shrink-0 shadow-lg relative", currentRiskGradient)}>
+            <div className="flex items-baseline">
                 <span className="text-xl font-bold text-white leading-none">{deal.riskScore}</span>
-                <span className="text-[10px] text-white/80 leading-none mt-0.5">/100</span>
+                <span className={cn("text-xs font-bold ml-0.5", trendColorClass)}>
+                    {deal.riskScoreTrend !== 'stable' && (
+                        <span className="flex items-center">
+                            <TrendIcon className="w-3 h-3" />
+                            <span>{deal.riskScoreChange}</span>
+                        </span>
+                    )}
+                </span>
             </div>
-            <div className={cn("absolute -top-1 -right-2 flex items-center bg-white px-1.5 py-0.5 rounded-full shadow-md text-xs font-bold", trendColorClass)}>
-                <TrendIcon className="w-3 h-3 mr-0.5" />
-                <span>{scoreChangeText}</span>
-            </div>
+            <span className="text-[10px] text-white/80 leading-none mt-0.5">/100</span>
         </div>
       </div>
       
