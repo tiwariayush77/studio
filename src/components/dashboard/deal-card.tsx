@@ -9,6 +9,10 @@ import {
   X,
   Info,
   Check,
+  TrendingUp,
+  TrendingDown,
+  Minus,
+  Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -40,10 +44,30 @@ const riskGradientStyles = {
     low: "bg-gradient-to-br from-green-500 to-green-600",
 }
 
+const trendIcon = {
+  up: TrendingUp,
+  down: TrendingDown,
+  stable: Minus,
+}
+
+const trendColor = {
+    up: "text-red-500",
+    down: "text-green-500",
+    stable: "text-gray-400"
+}
+
 export function DealCard({ deal }: { deal: Deal }) {
   const riskLevel = deal.riskLevel;
   const currentRiskStyle = riskStyles[riskLevel];
   const currentRiskGradient = riskGradientStyles[riskLevel];
+  const TrendIcon = trendIcon[deal.riskScoreTrend];
+  const trendColorClass = trendColor[deal.riskScoreTrend];
+  const scoreChangeText = deal.riskScoreTrend === 'up' 
+    ? `+${deal.riskScoreChange}` 
+    : deal.riskScoreTrend === 'down' 
+    ? `-${deal.riskScoreChange}` 
+    : `${deal.riskScoreChange}`;
+
 
   return (
     <Card
@@ -62,9 +86,14 @@ export function DealCard({ deal }: { deal: Deal }) {
           <Badge className="bg-green-600 text-white hover:bg-green-700 text-[11px] font-medium px-2.5 py-0.5 rounded-full">
             ${(deal.value / 1000).toFixed(0)}K
           </Badge>
-          <Badge variant="secondary" className="bg-gray-100 text-gray-700 text-[11px] px-2.5 py-0.5 rounded-full">
-            {deal.stage}
-          </Badge>
+          <div className="flex items-center gap-1">
+            <Badge variant="secondary" className="bg-gray-100 text-gray-700 text-[11px] px-2.5 py-0.5 rounded-l-full rounded-r-none">
+              {deal.stage}
+            </Badge>
+            <Badge variant="secondary" className="bg-gray-200 text-gray-600 text-[11px] px-2 py-0.5 rounded-r-full rounded-l-none font-bold">
+              {deal.stageProgress}%
+            </Badge>
+          </div>
           <Badge variant="secondary" className="bg-gray-50 text-gray-500 text-[11px] px-2.5 py-0.5 rounded-full">
             {deal.daysInStage} days
           </Badge>
@@ -72,9 +101,15 @@ export function DealCard({ deal }: { deal: Deal }) {
             Rep: {deal.rep.name} →
           </Link>
         </div>
-        <div className={cn("w-14 h-14 rounded-full flex flex-col items-center justify-center flex-shrink-0 shadow-lg", currentRiskGradient)}>
-            <span className="text-xl font-bold text-white leading-none">{deal.riskScore}</span>
-            <span className="text-[10px] text-white/80 leading-none mt-0.5">/100</span>
+        <div className="relative">
+             <div className={cn("w-14 h-14 rounded-full flex flex-col items-center justify-center flex-shrink-0 shadow-lg", currentRiskGradient)}>
+                <span className="text-xl font-bold text-white leading-none">{deal.riskScore}</span>
+                <span className="text-[10px] text-white/80 leading-none mt-0.5">/100</span>
+            </div>
+            <div className={cn("absolute -top-1 -right-2 flex items-center bg-white px-1.5 py-0.5 rounded-full shadow-md text-xs font-bold", trendColorClass)}>
+                <TrendIcon className="w-3 h-3 mr-0.5" />
+                <span>{scoreChangeText}</span>
+            </div>
         </div>
       </div>
       
@@ -83,6 +118,10 @@ export function DealCard({ deal }: { deal: Deal }) {
           Root Causes:
         </h4>
         <div className="space-y-2">
+            <div className="flex items-start gap-2 bg-yellow-50 text-yellow-900 p-2 rounded-md border-l-2 border-yellow-400">
+                <Sparkles className="w-4 h-4 text-yellow-600 flex-shrink-0 mt-0.5" />
+                <span className="text-sm font-medium leading-relaxed">{deal.aiInsight}</span>
+            </div>
           {deal.rootCauses.map((cause, index) => (
             <div key={index} className="flex items-start gap-2">
               <X className="w-4 h-4 text-red-600 flex-shrink-0 mt-0.5" />
@@ -153,7 +192,6 @@ export function DealCard({ deal }: { deal: Deal }) {
               <Check className="w-3.5 h-3.5 mr-1.5" /> Safe
           </Button>
         </div>
-        <p className="text-[11px] text-gray-500">{deal.lastActivity}</p>
       </div>
     </Card>
   );

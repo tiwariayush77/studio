@@ -34,6 +34,7 @@ export type Deal = {
   product: string;
   value: number;
   stage: "Discovery" | "Demo" | "Negotiation";
+  stageProgress: number;
   daysInStage: number;
   rep: {
     id: number;
@@ -41,8 +42,11 @@ export type Deal = {
     avatar: string;
   };
   riskScore: number;
+  riskScoreChange: number;
+  riskScoreTrend: 'up' | 'down' | 'stable';
   riskLevel: "high" | "medium" | "low";
   rootCauses: string[];
+  aiInsight: string;
   recommendedAction: string;
   lastActivity: string;
 };
