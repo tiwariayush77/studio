@@ -8,7 +8,11 @@ import {
   Target,
   X,
   Info,
-  Check
+  Check,
+  TrendingUp,
+  TrendingDown,
+  ArrowRight,
+  Sparkles
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -27,6 +31,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "../ui/label";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Progress } from "@/components/ui/progress";
 
 const riskStyles = {
   high: "border-red-600",
@@ -40,8 +45,27 @@ const riskGradientStyles = {
     low: "bg-gradient-to-br from-green-500 to-green-600",
 }
 
+const trendIcon = (trend: 'up' | 'down' | 'stable') => {
+  switch (trend) {
+    case 'up':
+      return <TrendingUp className="w-4 h-4 text-red-300" />;
+    case 'down':
+      return <TrendingDown className="w-4 h-4 text-green-300" />;
+    default:
+      return <ArrowRight className="w-4 h-4 text-gray-300" />;
+  }
+}
+
+const trendText = (trend: 'up' | 'down' | 'stable', change: number) => {
+  if (change === 0) return "Stable";
+  const sign = change > 0 ? '+' : '';
+  const color = trend === 'up' ? 'text-red-300' : 'text-green-300';
+  return <span className={color}>{sign}{change}</span>;
+}
+
+
 export function DealCard({ deal }: { deal: Deal }) {
-  const riskLevel = deal.riskScore >= 75 ? 'high' : deal.riskScore >= 50 ? 'medium' : 'low';
+  const riskLevel = deal.riskLevel;
   const currentRiskStyle = riskStyles[riskLevel];
   const currentRiskGradient = riskGradientStyles[riskLevel];
 
@@ -72,13 +96,26 @@ export function DealCard({ deal }: { deal: Deal }) {
             Rep: {deal.rep.name} →
           </Link>
         </div>
-        <div className={cn("w-14 h-14 rounded-full flex flex-col items-center justify-center flex-shrink-0 shadow-lg", currentRiskGradient)}>
-            <span className="text-xl font-bold text-white leading-none">{deal.riskScore}</span>
-            <span className="text-[10px] text-white/80 leading-none mt-0.5">/100</span>
+        <div className={cn("w-28 h-14 rounded-lg flex flex-col items-center justify-center flex-shrink-0", currentRiskGradient)}>
+            <div className="flex items-center gap-1.5">
+              {trendIcon(deal.riskTrend)}
+              <span className="text-xl font-bold text-white leading-none">{deal.riskScore}</span>
+              <span className="text-sm font-semibold text-white/80 leading-none">
+                {trendText(deal.riskTrend, deal.riskScoreChange)}
+              </span>
+            </div>
+            <p className="text-[9px] text-white/70 mt-0.5">Risk Score</p>
         </div>
       </div>
+
+      <div className="bg-gray-50/80 p-2 rounded-md mb-3 text-center">
+        <p className="text-xs text-gray-600">
+            <Sparkles className="w-3 h-3 text-yellow-500 inline-block mr-1" />
+            AI Insight: Score changed because <span className="font-semibold text-gray-800">{deal.scoreChangeReason}</span>
+        </p>
+      </div>
       
-      <div className="mt-3">
+      <div className="mt-4">
         <h4 className="text-sm font-semibold text-gray-800 mb-2">
           Root Causes:
         </h4>
@@ -91,10 +128,23 @@ export function DealCard({ deal }: { deal: Deal }) {
           ))}
         </div>
       </div>
+
+       <div className="mt-4">
+        <h4 className="text-sm font-semibold text-gray-800 mb-2">Playbook Status</h4>
+        <div className="flex items-center gap-4">
+          <div className="w-full">
+            <Progress value={deal.playbook.completion} className="h-2" />
+            <div className="flex justify-between mt-1">
+              <p className="text-xs text-gray-600">Next Step: <span className="font-semibold text-gray-800">{deal.playbook.nextStep}</span></p>
+              <p className="text-xs font-semibold text-gray-800">{deal.playbook.completion}% complete</p>
+            </div>
+          </div>
+        </div>
+      </div>
       
-      <div className="mt-3">
+      <div className="mt-4">
         <div className="flex items-center gap-1.5 mb-1.5">
-          <h4 className="text-xs font-semibold text-gray-700">
+          <h4 className="text-sm font-semibold text-gray-700">
             Recommended Action:
           </h4>
           <TooltipProvider>
@@ -105,12 +155,10 @@ export function DealCard({ deal }: { deal: Deal }) {
                 </button>
               </TooltipTrigger>
               <TooltipContent side="top" className="bg-gray-900 text-white text-xs p-3 rounded-lg max-w-xs leading-relaxed">
-                <p className="font-semibold mb-1">Why this action?</p>
-                <p>Based on analysis of 1,247 similar deals:</p>
-                <ul className="list-disc pl-4 mt-2 space-y-1">
-                  <li>Deals with executive sponsors close <strong>40% more often</strong></li>
-                  <li>CFO engagement in discovery increases win rate by <strong>23%</strong></li>
-                  <li>Multi-threading reduces deal risk by <strong>31%</strong></li>
+                <p className="font-semibold mb-1">AI Recommendation Details</p>
+                 <ul className="list-disc pl-4 mt-2 space-y-1">
+                  <li>Confidence: {deal.recommendedAction.confidence}%</li>
+                  <li>Historical Success: {deal.recommendedAction.historicalSuccess}</li>
                 </ul>
               </TooltipContent>
             </Tooltip>
@@ -119,12 +167,12 @@ export function DealCard({ deal }: { deal: Deal }) {
         <div className="bg-yellow-50 border-l-3 border-yellow-500 p-3 rounded-lg">
           <div className="flex items-start gap-2">
             <Target className="w-4 h-4 text-yellow-700 flex-shrink-0 mt-0.5" />
-            <span className="text-xs font-medium text-yellow-900 leading-snug">{deal.recommendedAction}</span>
+            <span className="text-sm font-medium text-yellow-900 leading-snug">{deal.recommendedAction.text}</span>
           </div>
         </div>
       </div>
       
-      <div className="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between">
+      <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
         <div className="flex gap-2">
           <Button asChild size="sm" className="bg-blue-600 hover:bg-blue-700 h-8 text-xs">
               <Link href={`/call-analysis/${deal.id}`}>
