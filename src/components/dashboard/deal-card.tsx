@@ -96,10 +96,10 @@ export function DealCard({ deal }: { deal: Deal }) {
             </div>
         </div>
         <div className={cn("h-9 px-3 rounded-md flex items-center justify-center gap-1.5 flex-shrink-0", currentRiskBg)}>
-            <TrendIcon className="w-4 h-4" />
+            <TrendIcon className="w-4 h-4 text-white/70" />
             <span className="text-lg font-bold leading-none">{deal.riskScore}</span>
             {deal.riskScoreTrend !== 'stable' && (
-                <span className="text-sm font-semibold">
+                <span className="text-sm font-semibold text-white/70">
                     {scoreChangeText}
                 </span>
             )}
