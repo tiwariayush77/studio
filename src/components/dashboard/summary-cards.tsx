@@ -31,26 +31,41 @@ const SummaryCard = ({
   colors,
   activeFilter,
   setFilter,
-}: SummaryCardProps) => (
-  <Card
-    className={cn(
-      "p-6 shadow-sm hover:shadow-md transition-all cursor-pointer relative",
-      colors.bg,
-      `border-l-4 ${colors.border}`,
-      activeFilter === riskLevel && "ring-2 ring-primary"
-    )}
-    onClick={() => setFilter(activeFilter === riskLevel ? "all" : riskLevel)}
-  >
-    <Icon className={cn("w-7 h-7 absolute top-6 right-6 opacity-70", colors.icon)} />
-    <p className={cn("text-sm font-medium uppercase tracking-wide", colors.text)}>
-      {title}
-    </p>
-    <p className={cn("text-4xl font-bold mt-2", colors.text)}>{dealCount} deals</p>
-    <p className="text-base text-text-secondary mt-1">
-      ${(value / 1000).toFixed(0)}K at risk
-    </p>
-  </Card>
-);
+}: SummaryCardProps) => {
+  const getSubtitle = () => {
+    switch (riskLevel) {
+      case "high":
+        return "needs immediate attention";
+      case "medium":
+        return "requires monitoring";
+      case "low":
+        return "tracking well";
+      default:
+        return "at risk";
+    }
+  };
+
+  return (
+    <Card
+      className={cn(
+        "p-6 shadow-sm hover:shadow-md transition-all cursor-pointer relative",
+        colors.bg,
+        `border-l-4 ${colors.border}`,
+        activeFilter === riskLevel && "ring-2 ring-primary"
+      )}
+      onClick={() => setFilter(activeFilter === riskLevel ? "all" : riskLevel)}
+    >
+      <Icon className={cn("w-7 h-7 absolute top-6 right-6 opacity-70", colors.icon)} />
+      <p className={cn("text-sm font-medium uppercase tracking-wide", colors.text)}>
+        {title}
+      </p>
+      <p className={cn("text-4xl font-bold mt-2", colors.text)}>{dealCount} deals</p>
+      <p className="text-base text-text-secondary mt-1">
+        ${(value / 1000).toFixed(0)}K {getSubtitle()}
+      </p>
+    </Card>
+  );
+};
 
 type SummaryCardsProps = {
   deals: { riskLevel: RiskLevel; value: number }[];
