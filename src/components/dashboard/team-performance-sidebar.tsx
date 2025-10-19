@@ -37,9 +37,13 @@ export function TeamPerformanceSidebar() {
                 <Button
                     key={f}
                     size="sm"
-                    variant={filter === f ? 'default' : 'ghost'}
+                    variant="ghost"
                     onClick={() => setFilter(f)}
-                    className={filter === f ? 'bg-blue-600 text-white' : 'text-gray-600'}
+                    className={cn('transition-all',
+                        filter === f 
+                        ? 'bg-gradient-to-r from-blue-50 to-blue-100 text-blue-800 font-semibold border border-blue-200 shadow-sm' 
+                        : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
+                    )}
                 >
                     {f === 'top' ? 'Top Performers' : f === 'coaching' ? 'Needs Coaching' : 'All'}
                 </Button>
@@ -68,7 +72,7 @@ export function TeamPerformanceSidebar() {
                         </span>
                     </div>
                     <div className="flex items-center gap-2 min-w-0">
-                        <div className="w-8 h-8 rounded-full bg-blue-500 text-white text-xs font-semibold flex items-center justify-center flex-shrink-0">
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-slate-100 to-slate-200 text-gray-700 text-xs font-semibold flex items-center justify-center flex-shrink-0">
                             {rep.avatar}
                         </div>
                         <span className="text-sm font-medium text-blue-600 hover:underline truncate">
