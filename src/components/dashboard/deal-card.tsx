@@ -38,10 +38,10 @@ const riskStyles = {
   low: "border-green-600",
 };
 
-const riskGradientStyles = {
-    high: "bg-gradient-to-br from-red-600 to-red-700",
-    medium: "bg-gradient-to-br from-yellow-500 to-yellow-600",
-    low: "bg-gradient-to-br from-green-500 to-green-600",
+const riskBgStyles = {
+    high: "bg-red-600",
+    medium: "bg-yellow-500",
+    low: "bg-green-500",
 }
 
 const trendIcon = {
@@ -50,18 +50,11 @@ const trendIcon = {
   stable: Minus,
 }
 
-const trendColor = {
-    up: "text-red-100",
-    down: "text-green-100",
-    stable: "text-gray-100"
-}
-
 export function DealCard({ deal }: { deal: Deal }) {
   const riskLevel = deal.riskLevel;
   const currentRiskStyle = riskStyles[riskLevel];
-  const currentRiskGradient = riskGradientStyles[riskLevel];
+  const currentRiskBg = riskBgStyles[riskLevel];
   const TrendIcon = trendIcon[deal.riskScoreTrend];
-  const trendColorClass = trendColor[deal.riskScoreTrend];
   const scoreChangeText = deal.riskScoreTrend === 'up' 
     ? `+${deal.riskScoreChange}` 
     : deal.riskScoreTrend === 'down' 
@@ -101,19 +94,17 @@ export function DealCard({ deal }: { deal: Deal }) {
             Rep: {deal.rep.name} →
           </Link>
         </div>
-        <div className={cn("w-14 h-14 rounded-full flex flex-col items-center justify-center flex-shrink-0 shadow-lg relative", currentRiskGradient)}>
-            <div className="flex items-baseline">
-                <span className="text-xl font-bold text-white leading-none">{deal.riskScore}</span>
-                <span className={cn("text-xs font-bold ml-0.5", trendColorClass)}>
-                    {deal.riskScoreTrend !== 'stable' && (
-                        <span className="flex items-center">
-                            <TrendIcon className="w-3 h-3" />
-                            <span>{deal.riskScoreChange}</span>
-                        </span>
-                    )}
-                </span>
+        <div className={cn("w-32 h-20 rounded-lg flex flex-col items-center justify-center flex-shrink-0 shadow-lg relative p-2", currentRiskBg)}>
+            <div className="flex items-center justify-center w-full">
+                <TrendIcon className="w-6 h-6 text-white/70 absolute top-2 left-2" />
+                <span className="text-4xl font-bold text-white leading-none">{deal.riskScore}</span>
+                {deal.riskScoreTrend !== 'stable' && (
+                    <span className="text-lg font-semibold text-white/80 ml-1.5">
+                        {scoreChangeText}
+                    </span>
+                )}
             </div>
-            <span className="text-[10px] text-white/80 leading-none mt-0.5">/100</span>
+            <span className="text-xs text-white/80 leading-none mt-1">Risk Score</span>
         </div>
       </div>
       
