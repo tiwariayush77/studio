@@ -34,15 +34,15 @@ import { Label } from "../ui/label";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 const riskStyles = {
-  high: "border-red-600",
-  medium: "border-yellow-600",
-  low: "border-green-600",
+  high: "border-red-300",
+  medium: "border-orange-300",
+  low: "border-green-300",
 };
 
 const riskBgStyles = {
-    high: "bg-red-600",
-    medium: "bg-orange-500",
-    low: "bg-green-600",
+    high: "bg-red-100 text-red-700",
+    medium: "bg-orange-100 text-orange-700",
+    low: "bg-green-100 text-green-700",
 }
 
 const trendIcon = {
@@ -96,10 +96,10 @@ export function DealCard({ deal }: { deal: Deal }) {
             </div>
         </div>
         <div className={cn("h-9 px-3 rounded-md flex items-center justify-center gap-1.5 flex-shrink-0 shadow-inner", currentRiskBg)}>
-            <TrendIcon className="w-4 h-4 text-white/80" />
-            <span className="text-lg font-bold text-white leading-none">{deal.riskScore}</span>
+            <TrendIcon className="w-4 h-4" />
+            <span className="text-lg font-bold leading-none">{deal.riskScore}</span>
             {deal.riskScoreTrend !== 'stable' && (
-                <span className="text-sm font-semibold text-white/80">
+                <span className="text-sm font-semibold">
                     {scoreChangeText}
                 </span>
             )}
@@ -150,7 +150,7 @@ export function DealCard({ deal }: { deal: Deal }) {
         </div>
       </div>
       
-      <div className="mt-6 pt-5 border-t border-gray-100 flex items-center justify-between">
+      <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
         <div className="flex gap-2">
           <Button asChild className="bg-blue-600 hover:bg-blue-700 h-10 px-5 font-semibold text-base">
               <Link href={`/call-analysis/${deal.id}`}>
