@@ -13,6 +13,7 @@ import {
   TrendingDown,
   Minus,
   Sparkles,
+  ArrowUpRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -40,8 +41,8 @@ const riskStyles = {
 
 const riskBgStyles = {
     high: "bg-red-600",
-    medium: "bg-yellow-500",
-    low: "bg-green-500",
+    medium: "bg-orange-500",
+    low: "bg-green-600",
 }
 
 const trendIcon = {
@@ -70,29 +71,29 @@ export function DealCard({ deal }: { deal: Deal }) {
       )}
     >
       <div className="flex items-start justify-between mb-4">
-        <div className="flex items-center gap-3 flex-wrap flex-1 mr-4">
-          <Link href={`/call-analysis/${deal.id}`}>
-            <h3 className="text-2xl font-bold text-gray-900 hover:text-primary transition-colors tracking-tight">
-              {deal.company} - {deal.product}
-            </h3>
-          </Link>
-          <Badge className="bg-green-600 text-white hover:bg-green-700 font-semibold text-xs px-3 py-1 rounded-full">
-            ${(deal.value / 1000).toFixed(0)}K
-          </Badge>
-          <div className="flex items-center gap-1">
-            <Badge variant="secondary" className="bg-blue-600 text-white hover:bg-blue-700 text-xs px-3 py-1 rounded-l-full rounded-r-none font-semibold">
-              {deal.stage}
-            </Badge>
-            <Badge variant="secondary" className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-r-full rounded-l-none font-bold">
-              {deal.stageProgress}%
-            </Badge>
-          </div>
-          <Badge variant="secondary" className="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full font-medium">
-            {deal.daysInStage} days
-          </Badge>
-          <Link href={`/rep-scorecard/${deal.rep.id}`} className="text-blue-600 hover:underline text-sm font-medium">
-            Rep: {deal.rep.name} →
-          </Link>
+        <div className="flex-1 mr-4">
+            <Link href={`/call-analysis/${deal.id}`}>
+                <h3 className="text-2xl font-bold text-gray-900 hover:text-primary transition-colors tracking-tight">
+                    {deal.company} - {deal.product}
+                </h3>
+            </Link>
+             <div className="mt-2 flex items-center gap-x-3 text-sm text-gray-500 flex-wrap">
+                <Badge className="bg-green-600 text-white hover:bg-green-700 font-semibold text-xs px-3 py-1 rounded-full">
+                    ${(deal.value / 1000).toFixed(0)}K
+                </Badge>
+                <div className="flex items-center gap-1">
+                    <Badge variant="secondary" className="bg-blue-600 text-white hover:bg-blue-700 text-xs px-3 py-1 rounded-l-full rounded-r-none font-semibold">
+                    {deal.stage}
+                    </Badge>
+                    <Badge variant="secondary" className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-r-full rounded-l-none font-bold">
+                    {deal.stageProgress}%
+                    </Badge>
+                </div>
+                <span>{deal.daysInStage} days in stage</span>
+                 <Link href={`/rep-scorecard/${deal.rep.id}`} className="text-blue-600 hover:underline font-medium flex items-center gap-1">
+                    Rep: {deal.rep.name} <ArrowUpRight className="w-3 h-3" />
+                </Link>
+            </div>
         </div>
         <div className={cn("h-9 px-3 rounded-md flex items-center justify-center gap-1.5 flex-shrink-0 shadow-inner", currentRiskBg)}>
             <TrendIcon className="w-4 h-4 text-white/80" />

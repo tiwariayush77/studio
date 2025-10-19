@@ -91,10 +91,10 @@ export function SummaryCards({ deals, activeFilter, setFilter }: SummaryCardsPro
         value={highRiskValue}
         icon={AlertCircle}
         colors={{
-          gradient: "bg-gradient-to-br from-red-600 to-red-500",
-          border: "border-red-700",
-          text: "text-white",
-          icon: "text-white",
+          gradient: "bg-gradient-to-br from-red-100 to-red-200",
+          border: "border-red-300",
+          text: "text-red-800",
+          icon: "text-red-500",
         }}
         activeFilter={activeFilter}
         setFilter={setFilter}
@@ -106,10 +106,10 @@ export function SummaryCards({ deals, activeFilter, setFilter }: SummaryCardsPro
         value={mediumRiskValue}
         icon={PauseCircle}
         colors={{
-          gradient: "bg-gradient-to-br from-orange-500 to-yellow-400",
-          border: "border-orange-600",
-          text: "text-white",
-          icon: "text-white",
+          gradient: "bg-gradient-to-br from-orange-100 to-orange-200",
+          border: "border-orange-300",
+          text: "text-orange-800",
+          icon: "text-orange-500",
         }}
         activeFilter={activeFilter}
         setFilter={setFilter}
@@ -121,10 +121,10 @@ export function SummaryCards({ deals, activeFilter, setFilter }: SummaryCardsPro
         value={lowRiskValue}
         icon={CheckCircle}
         colors={{
-          gradient: "bg-gradient-to-br from-green-600 to-green-500",
-          border: "border-green-700",
-          text: "text-white",
-          icon: "text-white",
+          gradient: "bg-gradient-to-br from-green-100 to-green-200",
+          border: "border-green-300",
+          text: "text-green-800",
+          icon: "text-green-500",
         }}
         activeFilter={activeFilter}
         setFilter={setFilter}

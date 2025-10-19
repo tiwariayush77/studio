@@ -22,7 +22,7 @@ export default function DashboardPage() {
       <div className="space-y-8">
         <SummaryCards deals={DEALS} activeFilter={riskFilter} setFilter={setRiskFilter} />
 
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-6 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 items-start">
           <div className="flex flex-col gap-4">
             {filteredDeals.map((deal: Deal) => (
                 <DealCard key={deal.id} deal={deal} />
