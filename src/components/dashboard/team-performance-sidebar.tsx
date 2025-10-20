@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { REPS } from '@/lib/data';
 import type { Rep } from '@/lib/types';
-import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 type FilterType = "all" | "top" | "coaching";
@@ -34,19 +33,18 @@ export function TeamPerformanceSidebar() {
 
         <div className="flex gap-2 mb-4">
             {(["all", "top", "coaching"] as FilterType[]).map(f => (
-                <Button
+                <div
                     key={f}
-                    size="sm"
-                    variant="ghost"
                     onClick={() => setFilter(f)}
-                    className={cn('transition-all',
+                    className={cn(
+                        'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium cursor-pointer transition-all duration-200 h-9 px-3',
                         filter === f 
                         ? 'bg-gradient-to-r from-blue-50 to-blue-100 text-blue-800 font-semibold border border-blue-200 shadow-sm' 
-                        : 'bg-gray-50 text-gray-600 hover:bg-gray-100 hover:!text-gray-700'
+                        : 'bg-gray-50 text-gray-700 hover:bg-gray-100 hover:text-gray-800 border border-gray-200'
                     )}
                 >
                     {f === 'top' ? 'Top Performers' : f === 'coaching' ? 'Needs Coaching' : 'All'}
-                </Button>
+                </div>
             ))}
         </div>
         
