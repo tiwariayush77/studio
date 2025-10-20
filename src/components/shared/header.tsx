@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import { Search, FileText, LayoutDashboard, BookOpen, BarChart3 } from "lucide-react";
+import { Search, FileText, LayoutDashboard, BookOpen, BarChart3, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -51,7 +51,7 @@ export function Header() {
             />
           </Link>
 
-          <div className="flex-1 flex justify-center">
+          <div className="flex-1 flex justify-center items-center gap-3">
               <div className="w-96 relative">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                   <Input
@@ -59,6 +59,20 @@ export function Header() {
                       className="w-full h-10 bg-background pl-10 focus:bg-card"
                   />
               </div>
+              
+              {/* Integrated Ask ZIME AI Button */}
+              <Button
+                  variant="outline"
+                  className="flex items-center gap-2 h-10 px-4 
+                            bg-gradient-to-r from-purple-50 to-purple-100 
+                            border-purple-200 text-purple-700 
+                            hover:from-purple-100 hover:to-purple-200 
+                            hover:border-purple-300 hover:text-purple-800
+                            transition-all duration-200"
+              >
+                  <Sparkles className="w-4 h-4" />
+                  <span className="font-medium hidden lg:inline">Ask ZIME AI</span>
+              </Button>
           </div>
 
           <div className="flex items-center gap-4">

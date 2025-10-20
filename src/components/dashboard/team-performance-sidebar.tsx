@@ -42,7 +42,7 @@ export function TeamPerformanceSidebar() {
                     className={cn('transition-all',
                         filter === f 
                         ? 'bg-gradient-to-r from-blue-50 to-blue-100 text-blue-800 font-semibold border border-blue-200 shadow-sm' 
-                        : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
+                        : 'bg-gray-50 text-gray-600 hover:bg-gray-100 hover:!text-gray-700'
                     )}
                 >
                     {f === 'top' ? 'Top Performers' : f === 'coaching' ? 'Needs Coaching' : 'All'}
