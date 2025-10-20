@@ -3,7 +3,6 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { Header } from '@/components/shared/header';
-import { AIAssistant } from '@/components/ai-assistant';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -35,7 +34,6 @@ export default function RootLayout({
       >
         <Header />
         <main>{children}</main>
-        <AIAssistant />
         <Toaster />
       </body>
     </html>

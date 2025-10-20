@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
@@ -14,6 +15,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
+import { AIAssistant } from "@/components/ai-assistant";
 
 const NavLink = ({ href, children }: { href: string, children: React.ReactNode }) => {
   const pathname = usePathname();
@@ -35,99 +37,106 @@ const NavLink = ({ href, children }: { href: string, children: React.ReactNode }
 
 
 export function Header() {
+  const [isAIAssistantOpen, setIsAIAssistantOpen] = useState(false);
+  
   return (
-    <header className="sticky top-0 z-50 w-full bg-white border-b border-gray-200">
-      {/* Top bar */}
-      <div className="h-16 border-b border-gray-100">
-        <div className="max-w-[1600px] mx-auto px-6 flex h-full items-center justify-between">
-          
-          <Link href="/" className="cursor-pointer hover:opacity-90 transition-opacity">
-            <Image
-              src="https://s3.us-west-2.amazonaws.com/zime.ai-website-asset/logo/zime-coral-black.png"
-              alt="ZIME AI"
-              width={120}
-              height={32}
-              className="h-8 w-auto"
-            />
-          </Link>
+    <>
+      <header className="sticky top-0 z-50 w-full bg-white border-b border-gray-200">
+        {/* Top bar */}
+        <div className="h-16 border-b border-gray-100">
+          <div className="max-w-[1600px] mx-auto px-6 flex h-full items-center justify-between">
+            
+            <Link href="/" className="cursor-pointer hover:opacity-90 transition-opacity">
+              <Image
+                src="https://s3.us-west-2.amazonaws.com/zime.ai-website-asset/logo/zime-coral-black.png"
+                alt="ZIME AI"
+                width={120}
+                height={32}
+                className="h-8 w-auto"
+              />
+            </Link>
 
-          <div className="flex-1 flex justify-center items-center gap-3">
-              <div className="w-96 relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                  <Input
-                      placeholder="Search deals, reps, or calls..."
-                      className="w-full h-10 bg-background pl-10 focus:bg-card"
-                  />
-              </div>
-              
-              {/* Integrated Ask ZIME AI Button */}
-              <Button
-                  variant="outline"
-                  className="flex items-center gap-2 h-10 px-4 
-                            bg-gradient-to-r from-purple-50 to-purple-100 
-                            border-purple-200 text-purple-700 
-                            hover:from-purple-100 hover:to-purple-200 
-                            hover:border-purple-300 hover:text-purple-800
-                            transition-all duration-200"
-              >
-                  <Sparkles className="w-4 h-4" />
-                  <span className="font-medium hidden lg:inline">Ask ZIME AI</span>
+            <div className="flex-1 flex justify-center items-center gap-3">
+                <div className="w-96 relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                    <Input
+                        placeholder="Search deals, reps, or calls..."
+                        className="w-full h-10 bg-background pl-10 focus:bg-card"
+                    />
+                </div>
+                
+                {/* Integrated Ask ZIME AI Button */}
+                <Button
+                    onClick={() => setIsAIAssistantOpen(true)}
+                    variant="outline"
+                    className="flex items-center gap-2 h-10 px-4 
+                              bg-gradient-to-r from-purple-50 to-purple-100 
+                              border-purple-200 text-purple-700 
+                              hover:from-purple-100 hover:to-purple-200 
+                              hover:border-purple-300 hover:text-purple-800
+                              transition-all duration-200"
+                >
+                    <Sparkles className="w-4 h-4" />
+                    <span className="font-medium hidden lg:inline">Ask ZIME AI</span>
+                </Button>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div className="flex items-center gap-2 cursor-pointer">
+                      <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                      <span className="text-sm text-green-600 hidden md:inline">All systems ready</span>
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Salesforce: Synced 2min ago</p>
+                    <p>Gong: Synced 5min ago</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+
+              <Button variant="ghost" asChild>
+                <a href="/mock.pdf" download="zime-report.pdf" className="text-text-secondary">
+                  <FileText className="h-4 w-4 mr-2" />
+                  Export
+                </a>
               </Button>
-          </div>
 
-          <div className="flex items-center gap-4">
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <div className="flex items-center gap-2 cursor-pointer">
-                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                    <span className="text-sm text-green-600 hidden md:inline">All systems ready</span>
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Salesforce: Synced 2min ago</p>
-                  <p>Gong: Synced 5min ago</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-
-            <Button variant="ghost" asChild>
-              <a href="/mock.pdf" download="zime-report.pdf" className="text-text-secondary">
-                <FileText className="h-4 w-4 mr-2" />
-                Export
-              </a>
-            </Button>
-
-            <Avatar className="h-9 w-9">
-              <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-500 to-blue-700">
-                  <AvatarFallback className="bg-transparent text-sm font-semibold text-white">AT</AvatarFallback>
-              </div>
-            </Avatar>
+              <Avatar className="h-9 w-9">
+                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-500 to-blue-700">
+                    <AvatarFallback className="bg-transparent text-sm font-semibold text-white">AT</AvatarFallback>
+                </div>
+              </Avatar>
+            </div>
           </div>
         </div>
-      </div>
 
-       {/* Navigation tabs */}
-      <div className="h-12">
-        <div className="max-w-[1600px] mx-auto px-6 h-full">
-          <nav className="flex items-center gap-8 h-full">
-            <NavLink href="/">
-              <LayoutDashboard className="w-4 h-4" />
-              Dashboard
-            </NavLink>
-            
-            <NavLink href="/team-playbook">
-              <BookOpen className="w-4 h-4" />
-              Team Playbook
-            </NavLink>
-            
-            <NavLink href="/analytics">
-              <BarChart3 className="w-4 h-4" />
-              Analytics
-            </NavLink>
-          </nav>
+        {/* Navigation tabs */}
+        <div className="h-12">
+          <div className="max-w-[1600px] mx-auto px-6 h-full">
+            <nav className="flex items-center gap-8 h-full">
+              <NavLink href="/">
+                <LayoutDashboard className="w-4 h-4" />
+                Dashboard
+              </NavLink>
+              
+              <NavLink href="/team-playbook">
+                <BookOpen className="w-4 h-4" />
+                Team Playbook
+              </NavLink>
+              
+              <NavLink href="/analytics">
+                <BarChart3 className="w-4 h-4" />
+                Analytics
+              </NavLink>
+            </nav>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+
+      {isAIAssistantOpen && <AIAssistant onClose={() => setIsAIAssistantOpen(false)} />}
+    </>
   );
 }
