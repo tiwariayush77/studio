@@ -39,6 +39,9 @@ const NavLink = ({ href, children }: { href: string, children: React.ReactNode }
 export function Header() {
   const [isAIAssistantOpen, setIsAIAssistantOpen] = useState(false);
   
+  const openAssistant = () => setIsAIAssistantOpen(true);
+  const closeAssistant = () => setIsAIAssistantOpen(false);
+  
   return (
     <>
       <header className="sticky top-0 z-50 w-full bg-white border-b border-gray-200">
@@ -67,7 +70,7 @@ export function Header() {
                 
                 {/* Integrated Ask ZIME AI Button */}
                 <Button
-                    onClick={() => setIsAIAssistantOpen(true)}
+                    onClick={openAssistant}
                     variant="outline"
                     className="flex items-center gap-2 h-10 px-4 
                               bg-gradient-to-r from-purple-50 to-purple-100 
@@ -135,8 +138,8 @@ export function Header() {
           </div>
         </div>
       </header>
-
-      {isAIAssistantOpen && <AIAssistant onClose={() => setIsAIAssistantOpen(false)} />}
+      
+      {isAIAssistantOpen && <AIAssistant onClose={closeAssistant} />}
     </>
   );
 }

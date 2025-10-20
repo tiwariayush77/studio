@@ -61,47 +61,89 @@ export function AIAssistant({ onClose }: AIAssistantProps) {
   const suggestions = suggestionsByRoute[getRouteKey()];
 
   return (
-    <div className={cn("fixed top-20 right-6 z-40 w-[400px] h-[550px] transition-all duration-300 opacity-100 translate-y-0")}>
-      <Card className="h-full w-full shadow-2xl flex flex-col">
-        <header className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-t-lg p-5 text-white relative">
+    <>
+      {/* Backdrop Overlay */}
+      <div 
+        className="fixed inset-0 bg-black/10 backdrop-blur-[2px] z-40 transition-opacity duration-300 ease-in-out"
+        onClick={onClose}
+      />
+      
+      {/* Slide-Out Panel */}
+      <div className="fixed top-0 right-0 h-full w-[420px] bg-white shadow-2xl z-50
+                      flex flex-col slide-in-right">
+        
+        {/* Panel Header */}
+        <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-6 text-white relative">
           <div className="flex items-center gap-3">
-            <Bot className="w-6 h-6" />
+            <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+              <Bot className="w-5 h-5" />
+            </div>
             <div>
-              <h3 className="text-lg font-semibold">AI Assistant</h3>
-              <p className="text-sm opacity-80">Ask me about your pipeline</p>
+              <h3 className="text-xl font-bold">AI Assistant</h3>
+              <p className="text-sm opacity-90">Ask me about your pipeline</p>
             </div>
           </div>
+          
           <Button
             variant="ghost"
             size="icon"
-            className="absolute top-4 right-4 text-white hover:bg-white/20 h-8 w-8"
+            className="absolute top-4 right-4 text-white hover:bg-white/20 h-8 w-8 rounded-full"
             onClick={onClose}
           >
-            <X className="h-5 w-5" />
+            <X className="h-4 w-4" />
           </Button>
-        </header>
-        <div className="flex-1 flex flex-col overflow-hidden">
-          <div className="p-5 border-b">
-            <p className="text-sm font-medium text-gray-600 mb-3">I can help with:</p>
-            <div className="grid grid-cols-1 gap-2">
-              {suggestions.map((s) => (
-                <SuggestionButton key={s}>{s}</SuggestionButton>
+        </div>
+        
+        {/* Panel Content */}
+        <div className="flex-1 flex flex-col overflow-y-auto">
+          
+          {/* Quick Suggestions */}
+          <div className="p-6 border-b border-gray-100">
+            <p className="text-sm font-semibold text-gray-700 mb-4">I can help with:</p>
+            <div className="grid gap-2">
+              {suggestions.map((suggestion, index) => (
+                <button
+                  key={index}
+                  className="w-full text-left p-3 rounded-lg border border-blue-100 
+                            bg-blue-50/50 hover:bg-blue-100/50
+                            text-blue-700 hover:text-blue-800 
+                            transition-all duration-200 text-sm font-medium"
+                >
+                  {suggestion}
+                </button>
               ))}
             </div>
           </div>
-          <div className="p-5 flex-1 flex flex-col">
-            <p className="text-sm font-medium text-gray-600 mb-2">Or ask me anything:</p>
-            <Textarea
-              placeholder="E.g., Why are deals stalling in demo stage?"
-              className="h-20 resize-none flex-1"
-            />
-            <Button className="mt-2 w-full bg-blue-600 hover:bg-blue-700">
-              <Send className="h-4 w-4 mr-2" />
-              Ask
-            </Button>
+          
+          {/* Chat Input */}
+          <div className="p-6 flex-1 flex flex-col">
+            <p className="text-sm font-semibold text-gray-700 mb-3">Or ask me anything:</p>
+            <div className="flex-1 flex flex-col">
+              <Textarea
+                placeholder="E.g., Why are deals stalling in demo stage?"
+                className="flex-1 resize-none border-gray-200 focus:border-purple-300 
+                          focus:ring-purple-200 min-h-[120px]"
+              />
+              <Button 
+                className="mt-4 w-full bg-gradient-to-r from-blue-600 to-blue-700 
+                          hover:from-blue-700 hover:to-blue-800
+                          text-white font-semibold py-3 h-auto rounded-lg
+                          transition-all duration-200 shadow-lg hover:shadow-xl"
+              >
+                <Send className="h-4 w-4 mr-2" />
+                Ask Zime AI
+              </Button>
+            </div>
           </div>
+          
         </div>
-      </Card>
-    </div>
+         {/* Footer */}
+          <div className="border-t border-gray-100 p-4 bg-gray-50/70">
+            <p className="text-xs text-gray-500 text-center">
+              Powered by Zime AI - Secure & Private
+            </p>
+          </div>
+      </div>
+    </>
   );
 }
